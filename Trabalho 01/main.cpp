@@ -2,17 +2,15 @@
 
 using namespace std;
 
-//#include <gui.h>
 #include <vector>
 
-//#include <objeto.h>
-#include <personagem.h>
-#include <casa.h>
-#include <carro.h>
-
-//Model3DS model3ds("../3ds/cartest.3DS");
+#include <Personagem.h>
+#include <Casa.h>
+#include <Carro.h>
+#include <Helicoptero.h>
 
 vector<Objeto*> objetos;
+
 int posSelecionado = -1;
 
 void desenha() {
@@ -29,6 +27,7 @@ void desenha() {
 
     for (int i = 0; i < objetos.size(); ++i) {
         glPushMatrix();
+            objetos[i]->atualiza(1);
             objetos[i]->desenha();
         glPopMatrix();
     }
@@ -46,26 +45,6 @@ void desenha() {
         objetos[posSelecionado]->s.y += glutGUI::dsy;
         objetos[posSelecionado]->s.z += glutGUI::dsz;
     }
-//    glutGUI::dtx = 0.0; glutGUI::dty = 0.0; glutGUI::dtz = 0.0;
-//    glutGUI::dax = 0.0; glutGUI::day = 0.0; glutGUI::daz = 0.0;
-//    glutGUI::dsx = 0.0; glutGUI::dsy = 0.0; glutGUI::dsz = 0.0;
-
-    //objeto transformado
-    //glPushMatrix();
-//        glTranslatef(glutGUI::tx,glutGUI::ty,glutGUI::tz);
-//        glRotatef(glutGUI::az,0,0,1);
-//        glRotatef(glutGUI::ay,0,1,0);
-//        glRotatef(glutGUI::ax,1,0,0);
-//        GUI::drawOrigin(1);
-//        glScalef(glutGUI::sx,glutGUI::sy,glutGUI::sz);
-//        GUI::setColor(0,0,1);
-//        //GUI::drawBox(0,0,0, 1,1,1);
-//        //GUI::drawBox(1,1,0, 2,2,1);
-//        //casa();
-//        //personagem();
-//        //GUI::draw3ds(model3ds);
-
-    //glPopMatrix();
 
     GUI::displayEnd();
 }
@@ -83,6 +62,13 @@ void teclado(unsigned char key, int x, int y) {
         break;
     case 'l':
         glutGUI::trans_luz = !glutGUI::trans_luz;
+        break;
+
+    case 'k':
+        if(posSelecionado >= 0 and posSelecionado < objetos.size())
+        {
+            objetos[posSelecionado]->origem = !objetos[posSelecionado]->origem;
+        }
         break;
 
     case 'n':
@@ -122,7 +108,11 @@ void teclado(unsigned char key, int x, int y) {
             objetos.push_back( new Carro() );
         }
         break;
-
+    case 'h':
+        if (incluirObjeto) {
+            objetos.push_back( new Helicoptero() );
+        }
+        break;
     default:
         break;
     }
@@ -130,7 +120,5 @@ void teclado(unsigned char key, int x, int y) {
 
 int main()
 {
-    cout << "Hello World!" << endl;
-
     GUI gui = GUI(800,600,desenha,teclado);
 }
