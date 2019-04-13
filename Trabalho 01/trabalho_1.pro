@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     pessoal/Personagem.cpp \
     pessoal/Objeto.cpp \
     pessoal/Helicoptero.cpp \
-    pessoal/Carro.cpp
+    pessoal/Veiculo.cpp \
+    pessoal/Imovel.cpp
 
 HEADERS += \
     bib/Camera.h \
@@ -34,8 +35,9 @@ HEADERS += \
     gui_glut/gui.h \
     pessoal/Personagem.h \
     pessoal/Objeto.h \
-    pessoal/Carro.h \
-    pessoal/Helicoptero.h
+    pessoal/Helicoptero.h \
+    pessoal/Veiculo.h \
+    pessoal/Imovel.h
 
 DISTFILES += \
     3ds/cartest.3DS \

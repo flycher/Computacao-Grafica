@@ -1,5 +1,6 @@
 #include "Objeto.h"
 
+
 Objeto::Objeto()
 {
 
@@ -14,14 +15,14 @@ void Objeto::desenha()
 
     if (selecionado) {
         int num_segments = 36;
-        GUI::setColor(0, 1, 0);
+        GUI::setColor(1, 0, 0);
         glBegin(GL_POLYGON);
         glNormal3f(0, 0, -1);
         for (int ii = 0; ii < num_segments; ii++)   {
             float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
-            float z = cosf(theta);//calculate the x component
-            float x = sinf(theta);//calculate the y component
-            glVertex3f(x, 0, z);//output vertex
+            float z = cosf(theta);
+            float x = sinf(theta);
+            glVertex3f(x, 0, z);
         }
         glEnd();
     }
@@ -43,7 +44,7 @@ void Objeto::cubo()
     glEnd();
 
     glBegin(GL_QUADS);
-        glNormal3f(0, 0, 1);
+        glNormal3f(0, 0, -1);
         glVertex3f(0, 0, -1);
         glVertex3f(0, 1, -1);
         glVertex3f(1, 1, -1);

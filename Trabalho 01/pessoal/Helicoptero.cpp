@@ -10,7 +10,7 @@ void Helicoptero::desenha()
     glPushMatrix();
         Objeto::desenha();
 
-        glScalef(0.6, 0.6, 0.6);
+        glScalef(0.25, 0.25, 0.25);
         glTranslatef(0, 0.33, 0.5);
         GUI::setColor(0, 0.75, 1);
         //cabine
@@ -173,4 +173,10 @@ void Helicoptero::desenha()
 void Helicoptero::atualiza(float a)
 {
     this->h += a;
+}
+
+
+void Helicoptero::camera() {
+    cam = new CameraJogo(t, Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
+    glutGUI::cam = cam;
 }

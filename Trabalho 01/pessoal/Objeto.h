@@ -3,6 +3,8 @@
 
 #include <gui.h>
 
+enum tipo {VEICULO, IMOVEL, PERSONAGEM, HELICOPTERO};
+
 class Objeto
 {
 public:
@@ -16,6 +18,7 @@ public:
     Objeto();
     virtual void desenha();
     virtual void atualiza(float a) = 0;
+    virtual void camera() = 0;
     void cubo();
 };
 

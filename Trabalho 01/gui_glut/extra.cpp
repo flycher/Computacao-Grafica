@@ -185,7 +185,6 @@ void glutGUI::defaultKey(unsigned char key, int x, int y)
     {
     case 27 :
     case 13 :
-    case 'q':
         exit(0);
         break;
 

@@ -62,7 +62,8 @@ SOURCES       = ../main.cpp \
 		../pessoal/Personagem.cpp \
 		../pessoal/Objeto.cpp \
 		../pessoal/Helicoptero.cpp \
-		../pessoal/Carro.cpp 
+		../pessoal/Veiculo.cpp \
+		../pessoal/Imovel.cpp 
 OBJECTS       = main.o \
 		Camera.o \
 		CameraDistante.o \
@@ -75,7 +76,8 @@ OBJECTS       = main.o \
 		Personagem.o \
 		Objeto.o \
 		Helicoptero.o \
-		Carro.o
+		Veiculo.o \
+		Imovel.o
 DIST          = ../3ds/cartest.3DS \
 		../3ds/maclaren.3DS \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
@@ -160,8 +162,9 @@ DIST          = ../3ds/cartest.3DS \
 		gui_glut/gui.h \
 		pessoal/Personagem.h \
 		pessoal/Objeto.h \
-		pessoal/Carro.h \
-		pessoal/Helicoptero.h ../main.cpp \
+		pessoal/Helicoptero.h \
+		pessoal/Veiculo.h \
+		pessoal/Imovel.h ../main.cpp \
 		../bib/Camera.cpp \
 		../bib/CameraDistante.cpp \
 		../bib/CameraJogo.cpp \
@@ -173,7 +176,8 @@ DIST          = ../3ds/cartest.3DS \
 		../pessoal/Personagem.cpp \
 		../pessoal/Objeto.cpp \
 		../pessoal/Helicoptero.cpp \
-		../pessoal/Carro.cpp
+		../pessoal/Veiculo.cpp \
+		../pessoal/Imovel.cpp
 QMAKE_TARGET  = trabalho_1
 DESTDIR       = 
 TARGET        = trabalho_1
@@ -386,7 +390,7 @@ main.o: ../main.cpp ../pessoal/Personagem.h \
 		../bib/Desenha.h \
 		../bib/model3ds.h \
 		../pessoal/Casa.h \
-		../pessoal/Carro.h \
+		../pessoal/Veiculo.h \
 		../pessoal/Helicoptero.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../main.cpp
 
@@ -467,7 +471,7 @@ Helicoptero.o: ../pessoal/Helicoptero.cpp ../pessoal/Helicoptero.h \
 		../bib/model3ds.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Helicoptero.o ../pessoal/Helicoptero.cpp
 
-Carro.o: ../pessoal/Carro.cpp ../pessoal/Carro.h \
+Veiculo.o: ../pessoal/Veiculo.cpp ../pessoal/Veiculo.h \
 		../pessoal/Objeto.h \
 		../gui_glut/gui.h \
 		../gui_glut/extra.h \
@@ -477,7 +481,19 @@ Carro.o: ../pessoal/Carro.cpp ../pessoal/Carro.h \
 		../bib/CameraJogo.h \
 		../bib/Desenha.h \
 		../bib/model3ds.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Carro.o ../pessoal/Carro.cpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Veiculo.o ../pessoal/Veiculo.cpp
+
+Imovel.o: ../pessoal/Imovel.cpp ../pessoal/Imovel.h \
+		../pessoal/Objeto.h \
+		../gui_glut/gui.h \
+		../gui_glut/extra.h \
+		../bib/CameraDistante.h \
+		../bib/Camera.h \
+		../bib/Vetor3D.h \
+		../bib/CameraJogo.h \
+		../bib/Desenha.h \
+		../bib/model3ds.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Imovel.o ../pessoal/Imovel.cpp
 
 ####### Install
 

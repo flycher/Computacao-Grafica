@@ -6,9 +6,13 @@
 class Personagem : public Objeto
 {
 public:
+    CameraJogo *cam;
+    float r[4], g[4], b[4];
+
     Personagem();
     void desenha();
-    void atualiza(float a);
+    void atualiza(float a){}
+    void camera();
 };
 
 #endif // PERSONAGEM_H
