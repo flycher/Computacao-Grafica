@@ -40,5 +40,12 @@ HEADERS += \
     pessoal/Imovel.h
 
 DISTFILES += \
-    3ds/cartest.3DS \
-    3ds/maclaren.3DS
+    3ds/apartamento1.3DS \
+    3ds/apartamento2.3DS \
+    3ds/bicicleta.3DS \
+    3ds/carro1.3DS \
+    3ds/carro2.3DS \
+    3ds/casa1.3DS \
+    3ds/casa2.3DS \
+    3ds/moto.3DS \
+    3ds/moto1.3DS
