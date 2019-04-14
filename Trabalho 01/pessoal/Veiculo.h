@@ -7,9 +7,8 @@ class Veiculo : public Objeto
 {
 public:
     Model3DS* model;
-    int tipo, escolha;
 
-    Veiculo(int tipo, int escolha);
+    Veiculo(TIPO t);
     void desenha();
     void atualiza(float a){}
     void camera() {}

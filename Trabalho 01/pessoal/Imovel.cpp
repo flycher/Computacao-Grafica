@@ -1,12 +1,17 @@
 #include "Imovel.h"
 
-Imovel::Imovel(int escolha)
+Imovel::Imovel(TIPO t)
 {
-    this->escolha = escolha;
-    if(escolha)
+    if(t == IMOVEL1)
+    {
+        tipo = IMOVEL1;
         model = new Model3DS("../3ds/apartamento1.3DS");
+    }
     else
+    {
+        tipo = IMOVEL2;
         model = new Model3DS("../3ds/apartamento2.3DS");
+    }
 }
 
 void Imovel::desenha()
@@ -15,7 +20,7 @@ void Imovel::desenha()
         Objeto::desenha();
 
         glRotatef(-90, 1, 0, 0);
-        if(this->escolha)
+        if(this->tipo == IMOVEL1)
         {
             glRotatef(180, 0, 1, 0);
             glRotatef(180, 1, 0, 0);

@@ -2,6 +2,8 @@
 
 Personagem::Personagem()
 {
+    tipo = PERSONAGEM;
+
     r[0] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     r[1] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     r[2] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
@@ -16,7 +18,6 @@ Personagem::Personagem()
     b[1] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     b[2] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
     b[3] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-
 }
 
 void Personagem::desenha()
@@ -86,6 +87,6 @@ void Personagem::desenha()
 }
 
 void Personagem::camera() {
-    cam = new CameraJogo(t, Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
+    cam = new CameraJogo(t + Vetor3D(0, 0.1, 0), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
     glutGUI::cam = cam;
 }

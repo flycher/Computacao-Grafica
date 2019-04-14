@@ -2,7 +2,7 @@
 
 Helicoptero::Helicoptero()
 {
-
+    tipo = HELICOPTERO;
 }
 
 void Helicoptero::desenha()

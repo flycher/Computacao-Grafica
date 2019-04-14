@@ -3,11 +3,12 @@
 
 #include <gui.h>
 
-enum tipo {VEICULO, IMOVEL, PERSONAGEM, HELICOPTERO};
+enum TIPO {CARRO1, CARRO2, MOTO, BICICLETA, IMOVEL1, IMOVEL2, PERSONAGEM, HELICOPTERO, NENHUM};
 
 class Objeto
 {
 public:
+    TIPO tipo = NENHUM;
     Vetor3D t = Vetor3D(0,0,0);
     Vetor3D a = Vetor3D(0,0,0);
     Vetor3D s = Vetor3D(1,1,1);

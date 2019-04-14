@@ -18,30 +18,88 @@ int posCam = -1;
 
 void salvaCenario()
 {
-    ofstream file_obj;
+    ofstream file_obj("salvo.txt");
 
-   // Opening file in append mode
-   file_obj.open("cenario.txt", ios::app);
-
-   for(auto obj: objetos){
-       // Writing the object's data in file
-       file_obj.write((char*)&obj, sizeof(obj));
-   }
+    file_obj << objetos.size() << '\n';
+    for(auto obj: objetos){
+       file_obj << obj->tipo << '\n';
+       file_obj << obj->t.x << '\n' << obj->t.y << '\n' << obj->t.z << '\n';
+       file_obj << obj->a.x << '\n' << obj->a.y << '\n' << obj->a.z << '\n';
+       file_obj << obj->s.x << '\n' << obj->s.y << '\n' << obj->s.z << '\n';
+    }
 }
 
-void carregaCenario() {
+void carregaCenario(string arquivo) {
     // Object to read from file
-    ifstream file_obj;
+    ifstream file_obj(arquivo);
 
-    // Opening file in input mode
-    file_obj.open("cenario.txt", ios::in);
+    string atual;
+    getline(file_obj, atual);
+    int n = strtof(atual.c_str(),0);
 
-    Objeto *obj;
-    // Checking till we have the feed
-    while (!file_obj.eof()) {
-        // Checking further
-        file_obj.read((char*)&obj, sizeof (obj));
-        objetos.push_back(obj);
+    int tipo;
+    float t[3], a[3], s[3];
+    for(int i = 0; i < n; i++)
+    {
+        getline(file_obj, atual);
+        tipo = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        t[0] = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        t[1] = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        t[2] = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        a[0] = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        a[1] = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        a[2] = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        s[0] = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        s[1] = strtof(atual.c_str(),0);
+        getline(file_obj, atual);
+        s[2] = strtof(atual.c_str(),0);
+
+        switch (tipo) {
+        case PERSONAGEM:
+            objetos.push_back( new Personagem() );
+            break;
+
+        case HELICOPTERO:
+            objetos.push_back( new Helicoptero() );
+            break;
+
+        case CARRO1:
+            objetos.push_back( new Veiculo(CARRO1) );
+            break;
+
+        case CARRO2:
+            objetos.push_back( new Veiculo(CARRO2) );
+            break;
+
+        case MOTO:
+            objetos.push_back( new Veiculo(MOTO) );
+            break;
+
+        case BICICLETA:
+            objetos.push_back( new Veiculo(BICICLETA) );
+            break;
+
+        case IMOVEL1:
+            objetos.push_back( new Imovel(IMOVEL1) );
+            break;
+
+        case IMOVEL2:
+            objetos.push_back( new Imovel(IMOVEL2) );
+            break;
+        default:
+            break;
+        }
+        objetos[i]->t = Vetor3D(t[0], t[1], t[2]);
+        objetos[i]->a = Vetor3D(a[0], a[1], a[2]);
+        objetos[i]->s = Vetor3D(s[0], s[1], s[2]);
     }
 }
 
@@ -147,37 +205,37 @@ void teclado(unsigned char key, int x, int y) {
 
     case 'v':
         if (incluirObjeto) {
-            objetos.push_back( new Veiculo(1, 1) );
+            objetos.push_back( new Veiculo(CARRO1) );
         }
         break;
 
     case 'V':
         if (incluirObjeto) {
-            objetos.push_back( new Veiculo(1, 0) );
+            objetos.push_back( new Veiculo(CARRO2) );
         }
         break;
 
     case 'g':
         if (incluirObjeto) {
-            objetos.push_back( new Veiculo(0, 1) );
+            objetos.push_back( new Veiculo(MOTO) );
         }
         break;
 
     case 'G':
         if (incluirObjeto) {
-            objetos.push_back( new Veiculo(0, 0) );
+            objetos.push_back( new Veiculo(BICICLETA) );
         }
         break;
 
     case 'i':
         if (incluirObjeto) {
-            objetos.push_back( new Imovel(1) );
+            objetos.push_back( new Imovel(IMOVEL1) );
         }
         break;
 
     case 'I':
         if (incluirObjeto) {
-            objetos.push_back( new Imovel(0) );
+            objetos.push_back( new Imovel(IMOVEL2) );
         }
         break;
 
@@ -210,7 +268,7 @@ void teclado(unsigned char key, int x, int y) {
         if (posCam >= cameras.size()) {
             posCam = 0;
         }
-        glutGUI::cam = cameras[posCam];
+        glutGUI::cam = new CameraDistante(cameras[posCam]->e, cameras[posCam]->c, cameras[posCam]->u);
         break;
 
     case 'E':
@@ -232,7 +290,7 @@ int main()
     cameras.push_back(new CameraDistante(Vetor3D(20, 5, 5), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0)));
     cameras.push_back(new CameraDistante(Vetor3D(10, 5, 20), Vetor3D(0, 0, 0), Vetor3D(0, -1, 0)));
 
-    //carregaCenario();
+    carregaCenario("cenario.txt");
 
     GUI gui = GUI(800,600,desenha,teclado);
 }

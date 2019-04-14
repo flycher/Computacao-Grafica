@@ -7,9 +7,8 @@ class Imovel : public Objeto
 {
 public:
     Model3DS* model;
-    int escolha;
 
-    Imovel(int o);
+    Imovel(TIPO t);
     void desenha();
     void atualiza(float a){}
     void camera() {}

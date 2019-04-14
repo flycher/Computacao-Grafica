@@ -78,8 +78,15 @@ OBJECTS       = main.o \
 		Helicoptero.o \
 		Veiculo.o \
 		Imovel.o
-DIST          = ../3ds/cartest.3DS \
-		../3ds/maclaren.3DS \
+DIST          = ../3ds/apartamento1.3DS \
+		../3ds/apartamento2.3DS \
+		../3ds/bicicleta.3DS \
+		../3ds/carro1.3DS \
+		../3ds/carro2.3DS \
+		../3ds/casa1.3DS \
+		../3ds/casa2.3DS \
+		../3ds/moto.3DS \
+		../3ds/moto1.3DS \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -389,9 +396,9 @@ main.o: ../main.cpp ../pessoal/Personagem.h \
 		../bib/CameraJogo.h \
 		../bib/Desenha.h \
 		../bib/model3ds.h \
-		../pessoal/Casa.h \
+		../pessoal/Helicoptero.h \
 		../pessoal/Veiculo.h \
-		../pessoal/Helicoptero.h
+		../pessoal/Imovel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../main.cpp
 
 Camera.o: ../bib/Camera.cpp ../bib/Camera.h \
