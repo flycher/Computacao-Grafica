@@ -34,7 +34,7 @@ void GUI::GLUTInit()
 
 void GUI::GLInit()
 {
-    glClearColor(0.6,0.6,0.0,1.0); //define a cor para limpar a imagem (cor de fundo)
+    glClearColor(0.52,0.8,0.92,1.0); //define a cor para limpar a imagem (cor de fundo)
 
     glEnable(GL_LIGHTING); //habilita iluminacao (chamada no setLight)
     //glEnable(GL_COLOR_MATERIAL);
