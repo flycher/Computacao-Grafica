@@ -7,9 +7,10 @@ INCLUDEPATH += bib
 INCLUDEPATH += gui_glut
 INCLUDEPATH += pessoal
 
-LIBS += -lGL -lGLU -lglut -l3ds -lSDL_image
+LIBS += -lGL -lGLU -lglut -l3ds -lSDL_image -lSDL2
 
-SOURCES += main.cpp \
+SOURCES += \
+    main.cpp \
     bib/Camera.cpp \
     bib/CameraDistante.cpp \
     bib/CameraJogo.cpp \
@@ -22,7 +23,8 @@ SOURCES += main.cpp \
     pessoal/Objeto.cpp \
     pessoal/Helicoptero.cpp \
     pessoal/Veiculo.cpp \
-    pessoal/Imovel.cpp
+    pessoal/Imovel.cpp \
+    pessoal/DoisCaraNumaMoto.cpp
 
 HEADERS += \
     bib/Camera.h \
@@ -37,7 +39,8 @@ HEADERS += \
     pessoal/Objeto.h \
     pessoal/Helicoptero.h \
     pessoal/Veiculo.h \
-    pessoal/Imovel.h
+    pessoal/Imovel.h \
+    pessoal/DoisCaraNumaMoto.h
 
 DISTFILES += \
     3ds/apartamento1.3DS \
@@ -48,4 +51,5 @@ DISTFILES += \
     3ds/casa1.3DS \
     3ds/casa2.3DS \
     3ds/moto.3DS \
-    3ds/moto1.3DS
+    3ds/2cara1moto.3DS \
+    sound/datena.wav

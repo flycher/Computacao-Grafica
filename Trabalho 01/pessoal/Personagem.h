@@ -1,7 +1,7 @@
 #ifndef PERSONAGEM_H
 #define PERSONAGEM_H
 
-#include <Objeto.h>
+#include "Objeto.h"
 
 class Personagem : public Objeto
 {

@@ -38,7 +38,7 @@ DISTNAME      = trabalho_11.0.0
 DISTDIR = /home/flycher/Dropbox/VScode/Computacao-Grafica/Trabalho\ 01/run/.tmp/trabalho_11.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) -lGL -lGLU -lglut -l3ds -lSDL_image 
+LIBS          = $(SUBLIBS) -lGL -lGLU -lglut -l3ds -lSDL_image -lSDL2 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -63,7 +63,8 @@ SOURCES       = ../main.cpp \
 		../pessoal/Objeto.cpp \
 		../pessoal/Helicoptero.cpp \
 		../pessoal/Veiculo.cpp \
-		../pessoal/Imovel.cpp 
+		../pessoal/Imovel.cpp \
+		../pessoal/DoisCaraNumaMoto.cpp 
 OBJECTS       = main.o \
 		Camera.o \
 		CameraDistante.o \
@@ -77,7 +78,8 @@ OBJECTS       = main.o \
 		Objeto.o \
 		Helicoptero.o \
 		Veiculo.o \
-		Imovel.o
+		Imovel.o \
+		DoisCaraNumaMoto.o
 DIST          = ../3ds/apartamento1.3DS \
 		../3ds/apartamento2.3DS \
 		../3ds/bicicleta.3DS \
@@ -86,7 +88,8 @@ DIST          = ../3ds/apartamento1.3DS \
 		../3ds/casa1.3DS \
 		../3ds/casa2.3DS \
 		../3ds/moto.3DS \
-		../3ds/moto1.3DS \
+		../3ds/2cara1moto.3DS \
+		../sound/datena.wav \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -171,7 +174,8 @@ DIST          = ../3ds/apartamento1.3DS \
 		pessoal/Objeto.h \
 		pessoal/Helicoptero.h \
 		pessoal/Veiculo.h \
-		pessoal/Imovel.h ../main.cpp \
+		pessoal/Imovel.h \
+		pessoal/DoisCaraNumaMoto.h ../main.cpp \
 		../bib/Camera.cpp \
 		../bib/CameraDistante.cpp \
 		../bib/CameraJogo.cpp \
@@ -184,7 +188,8 @@ DIST          = ../3ds/apartamento1.3DS \
 		../pessoal/Objeto.cpp \
 		../pessoal/Helicoptero.cpp \
 		../pessoal/Veiculo.cpp \
-		../pessoal/Imovel.cpp
+		../pessoal/Imovel.cpp \
+		../pessoal/DoisCaraNumaMoto.cpp
 QMAKE_TARGET  = trabalho_1
 DESTDIR       = 
 TARGET        = trabalho_1
@@ -398,7 +403,8 @@ main.o: ../main.cpp ../pessoal/Personagem.h \
 		../bib/model3ds.h \
 		../pessoal/Helicoptero.h \
 		../pessoal/Veiculo.h \
-		../pessoal/Imovel.h
+		../pessoal/Imovel.h \
+		../pessoal/DoisCaraNumaMoto.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../main.cpp
 
 Camera.o: ../bib/Camera.cpp ../bib/Camera.h \
@@ -501,6 +507,18 @@ Imovel.o: ../pessoal/Imovel.cpp ../pessoal/Imovel.h \
 		../bib/Desenha.h \
 		../bib/model3ds.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Imovel.o ../pessoal/Imovel.cpp
+
+DoisCaraNumaMoto.o: ../pessoal/DoisCaraNumaMoto.cpp ../pessoal/DoisCaraNumaMoto.h \
+		../pessoal/Objeto.h \
+		../gui_glut/gui.h \
+		../gui_glut/extra.h \
+		../bib/CameraDistante.h \
+		../bib/Camera.h \
+		../bib/Vetor3D.h \
+		../bib/CameraJogo.h \
+		../bib/Desenha.h \
+		../bib/model3ds.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DoisCaraNumaMoto.o ../pessoal/DoisCaraNumaMoto.cpp
 
 ####### Install
 

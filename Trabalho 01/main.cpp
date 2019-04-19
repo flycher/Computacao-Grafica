@@ -5,10 +5,11 @@ using namespace std;
 
 #include <vector>
 
-#include <Personagem.h>
-#include <Helicoptero.h>
-#include <Veiculo.h>
-#include <Imovel.h>
+#include "Personagem.h"
+#include "Helicoptero.h"
+#include "Veiculo.h"
+#include "Imovel.h"
+#include "DoisCaraNumaMoto.h"
 
 vector<Objeto*> objetos;
 vector<Camera*> cameras;
@@ -30,7 +31,6 @@ void salvaCenario()
 }
 
 void carregaCenario(string arquivo) {
-    // Object to read from file
     ifstream file_obj(arquivo);
 
     string atual;
@@ -94,6 +94,11 @@ void carregaCenario(string arquivo) {
         case IMOVEL2:
             objetos.push_back( new Imovel(IMOVEL2) );
             break;
+
+        case CARASMOTO:
+            objetos.push_back( new DoisCaraNumaMoto());
+            break;
+
         default:
             break;
         }
@@ -106,9 +111,8 @@ void carregaCenario(string arquivo) {
 void desenha() {
     GUI::displayInit();
 
-    GUI::setLight(1,1,3,5,true,false);
-    GUI::setLight(2,-1.5,0.5,-1,true,false);
-    GUI::setLight(3,-5,3,5,true,false);
+    GUI::setLight(0,10,10,10,true,false);
+    GUI::setLight(1,-10,10,-10,true,false);
 
     GUI::drawOrigin(1);
 
@@ -239,6 +243,12 @@ void teclado(unsigned char key, int x, int y) {
         }
         break;
 
+    case 'a':
+        if(incluirObjeto) {
+            objetos.push_back( new DoisCaraNumaMoto());
+        }
+        break;
+
     case 'd':
         if(posSelecionado >= 0 and posSelecionado < objetos.size()) {
             objetos.erase(objetos.begin() + posSelecionado, objetos.begin() + posSelecionado + 1);
@@ -260,7 +270,7 @@ void teclado(unsigned char key, int x, int y) {
         break;
 
     case 'Q':
-        glutGUI::cam = new CameraDistante();
+        glutGUI::cam = new CameraDistante(Vetor3D(0, 10, 15), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
         break;
 
     case 'e':
@@ -272,11 +282,49 @@ void teclado(unsigned char key, int x, int y) {
         break;
 
     case 'E':
-        glutGUI::cam = new CameraDistante();
+        glutGUI::cam = new CameraDistante(Vetor3D(0, 10, 15), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
         break;
 
     case 'S':
         salvaCenario();
+        break;
+
+    default:
+        break;
+    }
+}
+
+void instrucoes()
+{
+    cout << "Teclas para adicionar objetos" << endl;
+    cout << " 'i' : Imovel 1" << endl;
+    cout << " 'I' : Imovel 2" << endl;
+    cout << " 'v' : Veiculo 1" << endl;
+    cout << " 'V' : Veiculo 2" << endl;
+    cout << " 'g' : Moto" << endl;
+    cout << " 'G' : Bicicleta" << endl;
+    cout << " 'p' : Personagem" << endl;
+    cout << " 'h' : Helicoptero" << endl;
+    cout << " 'a' : 2 caras numa moto" << endl;
+    cout << endl;
+    cout << "'n' para selecionar proximo, 'b' para selecionar anterior" << endl;
+    cout << "O objeto selecionado exibira um circulo vermelho em baixo de si" << endl;
+    cout << "Se um personagem ou helicoptero estiver selecionado, 'q' para mudar a camera" << endl;
+    cout << "Para as cameras alternativas, 'e'" << endl;
+    cout << "'Q' ou 'E' para voltar a camera padrao" << endl;
+    cout << "'S' para salvar o cenario atual" << endl;
+    cout << "Digite 1 para carregar o cenário modelado, 2 para um cenário salvo" << endl;
+    cout << "qualquer outro para um cenário novo" << endl;
+    cout << "-> ";
+    int op;
+    cin >> op;
+    switch (op) {
+    case 1:
+        carregaCenario("cenario.txt");
+        break;
+
+    case 2:
+        carregaCenario("salvo.txt");
         break;
 
     default:
@@ -290,7 +338,7 @@ int main()
     cameras.push_back(new CameraDistante(Vetor3D(20, 5, 5), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0)));
     cameras.push_back(new CameraDistante(Vetor3D(10, 5, 20), Vetor3D(0, 0, 0), Vetor3D(0, -1, 0)));
 
-    carregaCenario("cenario.txt");
+    instrucoes();
 
     GUI gui = GUI(800,600,desenha,teclado);
 }

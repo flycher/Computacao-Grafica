@@ -87,6 +87,6 @@ void Personagem::desenha()
 }
 
 void Personagem::camera() {
-    cam = new CameraJogo(t + Vetor3D(0, 0.1, 0), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
+    cam = new CameraJogo(t + Vetor3D(0, 0.1, 0), Vetor3D(-t.x, -t.y, -t.z), Vetor3D(0, 1, 0));
     glutGUI::cam = cam;
 }
