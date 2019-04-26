@@ -170,11 +170,11 @@ void Helicoptero::desenha()
     glPopMatrix();
 }
 
-void Helicoptero::atualiza(float a)
+void Helicoptero::atualiza(int a)
 {
     this->h += a;
+    this->h %= 360;
 }
-
 
 void Helicoptero::audioCallback(void* userData, Uint8* stream, int streamLength)
 {

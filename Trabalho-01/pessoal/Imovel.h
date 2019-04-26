@@ -10,7 +10,7 @@ public:
 
     Imovel(TIPO t);
     void desenha();
-    void atualiza(float a){}
+    void atualiza(int a){}
     void camera() {}
 };
 

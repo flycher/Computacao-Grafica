@@ -18,8 +18,8 @@ void Objeto::desenha()
         GUI::setColor(1, 0, 0);
         glBegin(GL_POLYGON);
         glNormal3f(0, 0, 1);
-        for (int ii = 0; ii < num_segments; ii++)   {
-            float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);
+        for (int i = 0; i < num_segments; i++)   {
+            float theta = 2.0f * 3.1415926f * float(i) / float(num_segments);
             float z = cosf(theta);
             float x = sinf(theta);
             glVertex3f(x, 0, z);

@@ -311,6 +311,7 @@ void instrucoes()
     cout << endl;
     cout << "'n' para selecionar proximo, 'b' para selecionar anterior" << endl;
     cout << "O objeto selecionado exibira um circulo vermelho em baixo de si" << endl;
+    cout << "'d' para apagar o objeto selecionado, 'D' para apagar o ultimo objeto" << endl;
     cout << "Se um personagem ou helicoptero estiver selecionado, 'q' para mudar a camera" << endl;
     cout << "Para as cameras alternativas, 'e'" << endl;
     cout << "'Q' ou 'E' para voltar a camera padrao" << endl;

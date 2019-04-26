@@ -10,7 +10,7 @@ public:
 
     DoisCaraNumaMoto();
     void desenha();
-    void atualiza(float a){}
+    void atualiza(int a){}
     void camera() {}
 };
 

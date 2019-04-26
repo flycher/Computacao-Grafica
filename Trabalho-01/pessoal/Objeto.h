@@ -18,7 +18,7 @@ public:
 
     Objeto();
     virtual void desenha();
-    virtual void atualiza(float a) = 0;
+    virtual void atualiza(int a) = 0;
     virtual void camera() = 0;
     void cubo();
 };

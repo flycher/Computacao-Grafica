@@ -6,12 +6,12 @@
 class Helicoptero : public Objeto
 {
 public:
-    float h = 0;
+    int h = rand()/360;
     CameraJogo *cam;
 
     Helicoptero();
     void desenha();
-    void atualiza(float a);
+    void atualiza(int a);
     void camera();
 
     struct AudioData

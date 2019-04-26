@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DQT_QML_DEBUG
 CFLAGS        = -pipe -g -Wall -W -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -fPIC $(DEFINES)
-INCPATH       = -I../../Trabalho\ 01 -I. -I../bib -I../gui_glut -I../pessoal -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I../../Trabalho-01 -I. -I../bib -I../gui_glut -I../pessoal -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -35,7 +35,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = trabalho_11.0.0
-DISTDIR = /home/flycher/Dropbox/VScode/Computacao-Grafica/Trabalho\ 01/run/.tmp/trabalho_11.0.0
+DISTDIR = /home/flycher/Dropbox/VScode/Computacao-Grafica/Trabalho-01/run/.tmp/trabalho_11.0.0
 LINK          = g++
 LFLAGS        = 
 LIBS          = $(SUBLIBS) -lGL -lGLU -lglut -l3ds -lSDL2_image -lSDL2 
@@ -90,6 +90,8 @@ DIST          = ../3ds/apartamento1.3DS \
 		../3ds/moto.3DS \
 		../3ds/2cara1moto.3DS \
 		../sound/datena.wav \
+		../save/cenario.txt \
+		../save/save.txt \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
