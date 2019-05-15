@@ -15,6 +15,7 @@ public:
 
     bool selecionado = false;
     bool origem = false;
+    bool sombra = true;
 
     Objeto();
     virtual void desenha();

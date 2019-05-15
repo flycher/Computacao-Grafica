@@ -17,6 +17,16 @@ vector<Camera*> cameras;
 int posSelecionado = -1;
 int posCam = -1;
 
+//-------------------sombra-------------------
+bool drawShadow = false;
+bool pontual = true;
+float k = 0.0;
+vector<GLfloat*> planos;
+int sunRotation = 0;
+int sunAxis[3] = {0, 0, 0};
+int sunSpeed = 0;
+//-------------------sombra-------------------
+
 void salvaCenario()
 {
     ofstream file_obj("../save/salvo.txt");
@@ -112,14 +122,50 @@ void desenha() {
     GUI::displayInit();
 
 
-    GUI::setLight(0,10,10,10,true,false);
-    GUI::setLight(1,-10,10,-10,true,false);
+    //GUI::setLight(0,10,10,10,true,false);
+    //GUI::setLight(1,-10,10,-10,true,false);
 
 
     GUI::drawOrigin(1);
 
     GUI::setColor(0,1,0);
-    GUI::drawFloor(10, 10);
+    //GUI::drawFloor(10, 10);
+
+    //----------------
+    //-------------------bottom-------------------
+    glPushMatrix();
+        glTranslated(0.0,-0.01,0.0);
+        GUI::drawFloor(20,20);
+    glPopMatrix();
+
+    //-------------------back-------------------
+    glPushMatrix();
+        glTranslated(0.0,5.0,-10-0.01);
+        glRotatef(45, 1, 0, 0);
+        GUI::drawFloor(20,20);
+    glPopMatrix();
+
+    //-------------------front-------------------
+    glPushMatrix();
+        glTranslated(0.0,5.0,10+0.01);
+        glRotatef(-45, 1, 0, 0);
+        GUI::drawFloor(20,20);
+    glPopMatrix();
+
+    //-------------------left-------------------
+    glPushMatrix();
+        glTranslated(-5-0.01,10.0,0.0);
+        glRotated(-90, 0, 0, 1);
+        GUI::drawFloor(20,20);
+    glPopMatrix();
+
+    //-------------------right-------------------
+    glPushMatrix();
+        glTranslated(5+0.01,10.0,0.0);
+        glRotatef(90, 0, 0, 1);
+        GUI::drawFloor(20,20);
+    glPopMatrix();
+    //----------------
 
     for (int i = 0; i < objetos.size(); ++i) {
         glPushMatrix();
@@ -142,6 +188,39 @@ void desenha() {
         objetos[posSelecionado]->s.z += glutGUI::dsz;
     }
 
+    //-------------------sombra-------------------
+    //definindo a luz que sera usada para gerar a sombra
+    float lightPos[4] = {0+glutGUI::lx,5+glutGUI::ly,0+glutGUI::lz,pontual};
+    //GUI::setLight(0,lightPos[0],lightPos[1],lightPos[2],true,false,false,false,pontual);
+    GUI::setLight(0,0,5,0,true,false,false,false,pontual);
+    //desenhando os objetos projetados
+    glDisable(GL_LIGHTING);
+    glColor3d(0.0,0.0,0.0);
+    for(int i = 0; i < planos.size(); i++) {
+        glPushMatrix();
+                //matriz de projecao para gerar sombra no plano y=k
+                GLfloat sombra[4][4];
+                //GUI::shadowMatrixYk(sombra,lightPos,k);
+                //GLfloat plano[4] = {0,1,0,-k};
+                GUI::shadowMatrix(sombra,planos[i],lightPos);
+                glMultTransposeMatrixf( (GLfloat*)sombra );
+
+                if (drawShadow) {
+                    bool aux = glutGUI::draw_eixos;
+                    glutGUI::draw_eixos = false;
+                    for (int i = 0; i < objetos.size(); ++i) {
+                        glPushMatrix();
+                            if(objetos[i]->sombra)
+                                objetos[i]->desenha();
+                        glPopMatrix();
+                    }
+                    glutGUI::draw_eixos = aux;
+                }
+        glPopMatrix();
+    }
+    glEnable(GL_LIGHTING);
+    //-------------------sombra-------------------
+
     GUI::displayEnd();
 }
 
@@ -160,12 +239,31 @@ void teclado(unsigned char key, int x, int y) {
         glutGUI::trans_luz = !glutGUI::trans_luz;
         break;
 
+    case 'L':
+        drawShadow = !drawShadow;
+        break;
+
+    case 'W':
+        pontual = !pontual;
+        break;
+
+    case 'T':
+        glutGUI::perspective = !glutGUI::perspective;
+        break;
+
     case 'k':
         if(posSelecionado >= 0 and posSelecionado < objetos.size())
         {
             objetos[posSelecionado]->origem = !objetos[posSelecionado]->origem;
         }
         break;
+
+    case 's':
+    if(posSelecionado >= 0 and posSelecionado < objetos.size())
+    {
+        objetos[posSelecionado]->sombra = !objetos[posSelecionado]->sombra;
+    }
+    break;
 
     case 'n':
         if (posSelecionado >= 0 and posSelecionado < objetos.size()) {
@@ -315,6 +413,9 @@ void instrucoes()
     cout << "Se um personagem ou helicoptero estiver selecionado, 'q' para mudar a camera" << endl;
     cout << "Para as cameras alternativas, 'e'" << endl;
     cout << "'Q' ou 'E' para voltar a camera padrao" << endl;
+    cout << "'L' para ativar/desativar sombras" << endl;
+    cout << "'W' para mudar perspectiva de luz" << endl;
+    cout << "'T' para mudar perspectiva de visão" << endl;
     cout << "'S' para salvar o cenario atual" << endl;
     cout << "Digite 1 para carregar o cenário modelado, 2 para um cenário salvo" << endl;
     cout << "qualquer outro para um cenário novo" << endl;
@@ -344,6 +445,19 @@ int main()
     instrucoes();
 
     glutGUI::cam = new CameraDistante(Vetor3D(0, 10, 15), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
+
+    //-------------------sombra-------------------
+    GLfloat plano_d[4] = {0,1,0,0};
+    planos.push_back(plano_d);
+    GLfloat plano_b[4] = {0,1,1,5};
+    planos.push_back(plano_b);
+    GLfloat plano_f[4] = {0,1,-1,5};
+    planos.push_back(plano_f);
+    GLfloat plano_l[4] = {1,0,0,5};
+    planos.push_back(plano_l);
+    GLfloat plano_r[4] = {-1,0,0,5};
+    planos.push_back(plano_r);
+    //-------------------sombra-------------------
 
     GUI gui = GUI(800,600,desenha,teclado);
 }
