@@ -2,7 +2,7 @@
 
 Pantheon::Pantheon()
 {
-
+    tipo = PANTHEON;
 }
 
 void Pantheon::desenha()

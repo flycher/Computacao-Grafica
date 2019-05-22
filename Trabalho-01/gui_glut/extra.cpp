@@ -202,6 +202,10 @@ void glutGUI::defaultKey(unsigned char key, int x, int y)
 
     case 'o':
         glutGUI::perspective++;
+        if(glutGUI::perspective == 2)
+            glutGUI::cam = new CameraDistante(Vetor3D(-10, -10, 10), Vetor3D(-10, -10 , 0), Vetor3D(0, 1, 0));
+        else
+            glutGUI::cam = new CameraDistante(Vetor3D(0, 10, 15), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
         glutGUI::perspective %= 3;
         break;
 

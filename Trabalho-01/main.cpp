@@ -14,22 +14,19 @@ using namespace std;
 
 vector<Objeto*> objetos;
 vector<Camera*> cameras;
-vector<Camera*> cameras2;
+vector<Camera*> camerasO;
+vector<Camera*> camerasP;
 
 int posSelecionado = -1;
 int posCam = -1;
-int posCam2 = -1;
+int posCamO = -1;
+int posCamP = -1;
 
 //-------------------sombra-------------------
 bool drawShadow = false;
 bool pontual = true;
-float k = 0.0;
 vector<GLfloat*> planos;
-int sunRotation = 0;
-int sunAxis[3] = {0, 0, 0};
-int sunSpeed = 0;
 //-------------------sombra-------------------
-bool showFloor = true;
 
 void salvaCenario()
 {
@@ -113,6 +110,10 @@ void carregaCenario(string arquivo) {
             objetos.push_back( new DoisCaraNumaMoto());
             break;
 
+        case PANTHEON:
+            objetos.push_back( new Pantheon());
+            break;
+
         default:
             break;
         }
@@ -135,15 +136,13 @@ void desenha() {
     GUI::setColor(0,1,0);
     //GUI::drawFloor(10, 10);
 
-    if(showFloor)
+    //-------------------bottom-------------------
+    glPushMatrix();
+        glTranslated(0.0,-0.01,0.0);
+        GUI::drawFloor(20,20);
+    glPopMatrix();
+    if(drawShadow)
     {
-        //----------------
-        //-------------------bottom-------------------
-        glPushMatrix();
-            glTranslated(0.0,-0.01,0.0);
-            GUI::drawFloor(20,20);
-        glPopMatrix();
-
         //-------------------back-------------------
         glPushMatrix();
             glTranslated(0.0,5.0,-10-0.01);
@@ -227,6 +226,7 @@ void desenha() {
     glEnable(GL_LIGHTING);
     //-------------------sombra-------------------
 
+    glEnable(GL_CULL_FACE);
     GUI::displayEnd();
 }
 
@@ -275,17 +275,22 @@ void teclado(unsigned char key, int x, int y) {
         break;
 
     case '=':
-        posCam2++;
-        if (posCam2 >= cameras2.size()) {
-            posCam2 = 0;
+        glutGUI::perspective = 1;
+        posCamO++;
+        if (posCamO >= camerasO.size()) {
+            posCamO = 0;
         }
-        glutGUI::cam = new CameraDistante(cameras2[posCam2]->e, cameras2[posCam2]->c, cameras2[posCam2]->u);
+        glutGUI::cam = new CameraDistante(camerasO[posCamO]->e, camerasO[posCamO]->c, camerasO[posCamO]->u);
         break;
 
     case '-':
-        showFloor != showFloor;
+        glutGUI::perspective = 0;
+        posCamP++;
+        if (posCamP >= camerasP.size()) {
+            posCamP = 0;
+        }
+        glutGUI::cam = new CameraDistante(camerasP[posCamP]->e, camerasP[posCamP]->c, camerasP[posCamP]->u);
         break;
-
 
     case 'k':
         if(posSelecionado >= 0 and posSelecionado < objetos.size())
@@ -334,6 +339,12 @@ void teclado(unsigned char key, int x, int y) {
     case 'p':
         if (incluirObjeto) {
             objetos.push_back( new Personagem() );
+        }
+        break;
+
+    case 'P':
+        if (incluirObjeto) {
+            objetos.push_back( new Pantheon() );
         }
         break;
 
@@ -440,6 +451,7 @@ void instrucoes()
     cout << " 'g' : Moto" << endl;
     cout << " 'G' : Bicicleta" << endl;
     cout << " 'p' : Personagem" << endl;
+    cout << " 'P' : Pantheon" << endl;
     cout << " 'h' : Helicoptero" << endl;
     cout << " 'a' : 2 caras numa moto" << endl;
     cout << endl;
@@ -450,8 +462,11 @@ void instrucoes()
     cout << "Para as cameras alternativas, 'e'" << endl;
     cout << "'Q' ou 'E' para voltar a camera padrao" << endl;
     cout << "'L' para ativar/desativar sombras" << endl;
+    cout << "'s' para ativar/desativar sombra do objeto selecionado" << endl;
     cout << "'W' para mudar perspectiva de luz" << endl;
     cout << "'o' para mudar perspectiva de visão" << endl;
+    cout << "'-' para visões perspectivas clássicas" << endl;
+    cout << "'=' para visões ortogonais clássicas" << endl;
     cout << "'S' para salvar o cenario atual" << endl;
     cout << "Digite 1 para carregar o cenário modelado, 2 para um cenário salvo" << endl;
     cout << "qualquer outro para um cenário novo" << endl;
@@ -478,17 +493,21 @@ int main()
     cameras.push_back(new CameraDistante(Vetor3D(20, 5, 5), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0)));
     cameras.push_back(new CameraDistante(Vetor3D(10, 5, 20), Vetor3D(0, 0, 0), Vetor3D(0, -1, 0)));
 
-    cameras2.push_back(new CameraDistante(Vetor3D(0, 0, 10), Vetor3D(), Vetor3D(0, 1, 0)));
-    cameras2.push_back(new CameraDistante(Vetor3D(5, 5, 5), Vetor3D(), Vetor3D(0, 1, 0)));
-    cameras2.push_back(new CameraDistante(Vetor3D(5, 0, 5), Vetor3D(), Vetor3D(0, 1, 0)));
-    cameras2.push_back(new CameraDistante(Vetor3D(5, 1, 3), Vetor3D(), Vetor3D(0, 1, 0)));
+    //clássicas ortogonais
+    camerasO.push_back(new CameraDistante(Vetor3D(0, 0, 10), Vetor3D(), Vetor3D(0, 1, 0)));
+    camerasO.push_back(new CameraDistante(Vetor3D(5, 5, 5), Vetor3D(0.7, 1.3, 0), Vetor3D(0, 1, 0)));
+    camerasO.push_back(new CameraDistante(Vetor3D(5, 2, 5), Vetor3D(0.7, 1.3, 0), Vetor3D(0, 1, 0)));
+    camerasO.push_back(new CameraDistante(Vetor3D(5, 7, 2), Vetor3D(0.7, 1.3, 0), Vetor3D(0, 1, 0)));
+
+    //pontos de fuga perspectiva
+    camerasP.push_back(new CameraDistante(Vetor3D(0, 0, 10), Vetor3D(), Vetor3D(0, 1, 0)));
+    camerasP.push_back(new CameraDistante(Vetor3D(5, 0, 5), Vetor3D(), Vetor3D(0, 1, 0)));
+    camerasP.push_back(new CameraDistante(Vetor3D(4, 2, 7), Vetor3D(), Vetor3D(0, 1, 0)));
+
 
     instrucoes();
 
-    if(showFloor)
-        glutGUI::cam = new CameraDistante(Vetor3D(0, 10, 15), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
-    else
-        glutGUI::cam = new CameraDistante();
+    glutGUI::cam = new CameraDistante(Vetor3D(0, 10, 15), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
 
     //-------------------sombra-------------------
     GLfloat plano_d[4] = {0,1,0,0};
@@ -503,7 +522,7 @@ int main()
     planos.push_back(plano_r);
     //-------------------sombra-------------------
 
-    objetos.push_back(new Pantheon());
+//    objetos.push_back(new Pantheon());
 
     GUI gui = GUI(800,600,desenha,teclado);
 }
