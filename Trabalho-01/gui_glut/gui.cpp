@@ -54,6 +54,7 @@ void GUI::GLInit()
 
     glEnable(GL_BLEND); //habilita a transparencia
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 }
 
 GUI::~GUI(){
@@ -84,6 +85,24 @@ void GUI::setKey(keyFunction kFunction) {
 
 //using namespace glutGUI;
 
+void glObliqua(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near,
+               GLdouble far, GLdouble theta, GLdouble phi) {
+
+    double shx = 1 / tan(theta * PI/180);
+    double shy = 1 / tan(phi * PI/180);
+
+    double SHT[16] = {
+                    1, 0, shx, shx*near,
+                    0, 1, shy, shy*near,
+                    0, 0,   1,        0,
+                    0, 0,   0,        1
+    };
+
+    glOrtho(left, right, bottom, top, near, far);
+    glMultTransposeMatrixd(SHT);
+
+}
+
 void GUI::displayInit()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //limpa a imagem com a cor de fundo
@@ -96,10 +115,12 @@ void GUI::displayInit()
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    if (glutGUI::perspective)
-        gluPerspective(30.,ar,0.1,1000.);
-    else
+    if (glutGUI::perspective == 0)
+        gluPerspective(glutGUI::anglePerspective,ar,0.1,1000.);
+    else if(glutGUI::perspective == 1)
         glOrtho(-orthof*w,orthof*w,-orthof*h,orthof*h,0.0,100.0);
+    else
+        glObliqua(-orthof*w,orthof*w,-orthof*h,orthof*h,0.0,100.0, glutGUI::obliquaX, glutGUI::obliquaY);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

@@ -24,7 +24,8 @@ SOURCES += \
     pessoal/Helicoptero.cpp \
     pessoal/Veiculo.cpp \
     pessoal/Imovel.cpp \
-    pessoal/DoisCaraNumaMoto.cpp
+    pessoal/DoisCaraNumaMoto.cpp \
+    pessoal/Pantheon.cpp
 
 HEADERS += \
     bib/Camera.h \
@@ -40,7 +41,8 @@ HEADERS += \
     pessoal/Helicoptero.h \
     pessoal/Veiculo.h \
     pessoal/Imovel.h \
-    pessoal/DoisCaraNumaMoto.h
+    pessoal/DoisCaraNumaMoto.h \
+    pessoal/Pantheon.h
 
 DISTFILES += \
     3ds/apartamento1.3DS \

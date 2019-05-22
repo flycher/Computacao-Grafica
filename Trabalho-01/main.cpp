@@ -10,12 +10,15 @@ using namespace std;
 #include "Veiculo.h"
 #include "Imovel.h"
 #include "DoisCaraNumaMoto.h"
+#include "Pantheon.h"
 
 vector<Objeto*> objetos;
 vector<Camera*> cameras;
+vector<Camera*> cameras2;
 
 int posSelecionado = -1;
 int posCam = -1;
+int posCam2 = -1;
 
 //-------------------sombra-------------------
 bool drawShadow = false;
@@ -26,6 +29,7 @@ int sunRotation = 0;
 int sunAxis[3] = {0, 0, 0};
 int sunSpeed = 0;
 //-------------------sombra-------------------
+bool showFloor = true;
 
 void salvaCenario()
 {
@@ -131,42 +135,44 @@ void desenha() {
     GUI::setColor(0,1,0);
     //GUI::drawFloor(10, 10);
 
-    //----------------
-    //-------------------bottom-------------------
-    glPushMatrix();
-        glTranslated(0.0,-0.01,0.0);
-        GUI::drawFloor(20,20);
-    glPopMatrix();
+    if(showFloor)
+    {
+        //----------------
+        //-------------------bottom-------------------
+        glPushMatrix();
+            glTranslated(0.0,-0.01,0.0);
+            GUI::drawFloor(20,20);
+        glPopMatrix();
 
-    //-------------------back-------------------
-    glPushMatrix();
-        glTranslated(0.0,5.0,-10-0.01);
-        glRotatef(45, 1, 0, 0);
-        GUI::drawFloor(20,20);
-    glPopMatrix();
+        //-------------------back-------------------
+        glPushMatrix();
+            glTranslated(0.0,5.0,-10-0.01);
+            glRotatef(45, 1, 0, 0);
+            GUI::drawFloor(20,20);
+        glPopMatrix();
 
-    //-------------------front-------------------
-    glPushMatrix();
-        glTranslated(0.0,5.0,10+0.01);
-        glRotatef(-45, 1, 0, 0);
-        GUI::drawFloor(20,20);
-    glPopMatrix();
+        //-------------------front-------------------
+        glPushMatrix();
+            glTranslated(0.0,5.0,10+0.01);
+            glRotatef(-45, 1, 0, 0);
+            GUI::drawFloor(20,20);
+        glPopMatrix();
 
-    //-------------------left-------------------
-    glPushMatrix();
-        glTranslated(-5-0.01,10.0,0.0);
-        glRotated(-90, 0, 0, 1);
-        GUI::drawFloor(20,20);
-    glPopMatrix();
+        //-------------------left-------------------
+        glPushMatrix();
+            glTranslated(-5-0.01,10.0,0.0);
+            glRotated(-90, 0, 0, 1);
+            GUI::drawFloor(20,20);
+        glPopMatrix();
 
-    //-------------------right-------------------
-    glPushMatrix();
-        glTranslated(5+0.01,10.0,0.0);
-        glRotatef(90, 0, 0, 1);
-        GUI::drawFloor(20,20);
-    glPopMatrix();
-    //----------------
-
+        //-------------------right-------------------
+        glPushMatrix();
+            glTranslated(5+0.01,10.0,0.0);
+            glRotatef(90, 0, 0, 1);
+            GUI::drawFloor(20,20);
+        glPopMatrix();
+        //----------------
+    }
     for (int i = 0; i < objetos.size(); ++i) {
         glPushMatrix();
             objetos[i]->atualiza(5);
@@ -195,7 +201,7 @@ void desenha() {
     GUI::setLight(0,0,5,0,true,false,false,false,pontual);
     //desenhando os objetos projetados
     glDisable(GL_LIGHTING);
-    glColor3d(0.0,0.0,0.0);
+    glColor4d(0.0,0.0,0.0, 0.7);
     for(int i = 0; i < planos.size(); i++) {
         glPushMatrix();
                 //matriz de projecao para gerar sombra no plano y=k
@@ -239,6 +245,7 @@ void teclado(unsigned char key, int x, int y) {
         glutGUI::trans_luz = !glutGUI::trans_luz;
         break;
 
+    //----------sombra
     case 'L':
         drawShadow = !drawShadow;
         break;
@@ -247,9 +254,38 @@ void teclado(unsigned char key, int x, int y) {
         pontual = !pontual;
         break;
 
-    case 'T':
-        glutGUI::perspective = !glutGUI::perspective;
+    //----------projeção
+    case '(':
+        glutGUI::anglePerspective++;
         break;
+    case ')':
+        glutGUI::anglePerspective--;
+        break;
+    case '[':
+        glutGUI::obliquaX++;
+        break;
+    case ']':
+        glutGUI::obliquaX--;
+        break;
+    case '{':
+        glutGUI::obliquaY++;
+        break;
+    case '}':
+        glutGUI::obliquaY--;
+        break;
+
+    case '=':
+        posCam2++;
+        if (posCam2 >= cameras2.size()) {
+            posCam2 = 0;
+        }
+        glutGUI::cam = new CameraDistante(cameras2[posCam2]->e, cameras2[posCam2]->c, cameras2[posCam2]->u);
+        break;
+
+    case '-':
+        showFloor != showFloor;
+        break;
+
 
     case 'k':
         if(posSelecionado >= 0 and posSelecionado < objetos.size())
@@ -415,7 +451,7 @@ void instrucoes()
     cout << "'Q' ou 'E' para voltar a camera padrao" << endl;
     cout << "'L' para ativar/desativar sombras" << endl;
     cout << "'W' para mudar perspectiva de luz" << endl;
-    cout << "'T' para mudar perspectiva de visão" << endl;
+    cout << "'o' para mudar perspectiva de visão" << endl;
     cout << "'S' para salvar o cenario atual" << endl;
     cout << "Digite 1 para carregar o cenário modelado, 2 para um cenário salvo" << endl;
     cout << "qualquer outro para um cenário novo" << endl;
@@ -442,9 +478,17 @@ int main()
     cameras.push_back(new CameraDistante(Vetor3D(20, 5, 5), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0)));
     cameras.push_back(new CameraDistante(Vetor3D(10, 5, 20), Vetor3D(0, 0, 0), Vetor3D(0, -1, 0)));
 
+    cameras2.push_back(new CameraDistante(Vetor3D(0, 0, 10), Vetor3D(), Vetor3D(0, 1, 0)));
+    cameras2.push_back(new CameraDistante(Vetor3D(5, 5, 5), Vetor3D(), Vetor3D(0, 1, 0)));
+    cameras2.push_back(new CameraDistante(Vetor3D(5, 0, 5), Vetor3D(), Vetor3D(0, 1, 0)));
+    cameras2.push_back(new CameraDistante(Vetor3D(5, 1, 3), Vetor3D(), Vetor3D(0, 1, 0)));
+
     instrucoes();
 
-    glutGUI::cam = new CameraDistante(Vetor3D(0, 10, 15), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
+    if(showFloor)
+        glutGUI::cam = new CameraDistante(Vetor3D(0, 10, 15), Vetor3D(0, 0, 0), Vetor3D(0, 1, 0));
+    else
+        glutGUI::cam = new CameraDistante();
 
     //-------------------sombra-------------------
     GLfloat plano_d[4] = {0,1,0,0};
@@ -458,6 +502,8 @@ int main()
     GLfloat plano_r[4] = {-1,0,0,5};
     planos.push_back(plano_r);
     //-------------------sombra-------------------
+
+    objetos.push_back(new Pantheon());
 
     GUI gui = GUI(800,600,desenha,teclado);
 }

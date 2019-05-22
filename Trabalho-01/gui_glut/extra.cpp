@@ -3,7 +3,7 @@
 int glutGUI::width = 400;
 int glutGUI::height = 300;
 
-bool glutGUI::perspective = true;
+int glutGUI::perspective = 0;
 
 bool glutGUI::lbpressed = false;
 bool glutGUI::mbpressed = false;
@@ -73,6 +73,11 @@ float glutGUI::dsy = 0.0;
 float glutGUI::dsz = 0.0;
 
 //float glutGUI::delta = 5.0;
+
+//-------projeção
+int glutGUI::anglePerspective = 30;
+int glutGUI::obliquaX = 45;
+int glutGUI::obliquaY = 45;
 
 
 void glutGUI::resize(int w, int h)
@@ -196,7 +201,8 @@ void glutGUI::defaultKey(unsigned char key, int x, int y)
         break;
 
     case 'o':
-        glutGUI::perspective = !glutGUI::perspective;
+        glutGUI::perspective++;
+        glutGUI::perspective %= 3;
         break;
 
     //case 'l':

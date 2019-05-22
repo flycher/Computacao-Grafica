@@ -35,7 +35,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = trabalho_11.0.0
-DISTDIR = /home/flycher/Dropbox/VScode/Computacao-Grafica/Trabalho-01/run/.tmp/trabalho_11.0.0
+DISTDIR = /home/flycher/Dropbox/VScode/computacao-grafica/Trabalho-01/run/.tmp/trabalho_11.0.0
 LINK          = g++
 LFLAGS        = 
 LIBS          = $(SUBLIBS) -lGL -lGLU -lglut -l3ds -lSDL2_image -lSDL2 
@@ -64,7 +64,8 @@ SOURCES       = ../main.cpp \
 		../pessoal/Helicoptero.cpp \
 		../pessoal/Veiculo.cpp \
 		../pessoal/Imovel.cpp \
-		../pessoal/DoisCaraNumaMoto.cpp 
+		../pessoal/DoisCaraNumaMoto.cpp \
+		../pessoal/Pantheon.cpp 
 OBJECTS       = main.o \
 		Camera.o \
 		CameraDistante.o \
@@ -79,7 +80,8 @@ OBJECTS       = main.o \
 		Helicoptero.o \
 		Veiculo.o \
 		Imovel.o \
-		DoisCaraNumaMoto.o
+		DoisCaraNumaMoto.o \
+		Pantheon.o
 DIST          = ../3ds/apartamento1.3DS \
 		../3ds/apartamento2.3DS \
 		../3ds/bicicleta.3DS \
@@ -177,7 +179,8 @@ DIST          = ../3ds/apartamento1.3DS \
 		pessoal/Helicoptero.h \
 		pessoal/Veiculo.h \
 		pessoal/Imovel.h \
-		pessoal/DoisCaraNumaMoto.h ../main.cpp \
+		pessoal/DoisCaraNumaMoto.h \
+		pessoal/Pantheon.h ../main.cpp \
 		../bib/Camera.cpp \
 		../bib/CameraDistante.cpp \
 		../bib/CameraJogo.cpp \
@@ -191,7 +194,8 @@ DIST          = ../3ds/apartamento1.3DS \
 		../pessoal/Helicoptero.cpp \
 		../pessoal/Veiculo.cpp \
 		../pessoal/Imovel.cpp \
-		../pessoal/DoisCaraNumaMoto.cpp
+		../pessoal/DoisCaraNumaMoto.cpp \
+		../pessoal/Pantheon.cpp
 QMAKE_TARGET  = trabalho_1
 DESTDIR       = 
 TARGET        = trabalho_1
@@ -521,6 +525,18 @@ DoisCaraNumaMoto.o: ../pessoal/DoisCaraNumaMoto.cpp ../pessoal/DoisCaraNumaMoto.
 		../bib/Desenha.h \
 		../bib/model3ds.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DoisCaraNumaMoto.o ../pessoal/DoisCaraNumaMoto.cpp
+
+Pantheon.o: ../pessoal/Pantheon.cpp ../pessoal/Pantheon.h \
+		../pessoal/Objeto.h \
+		../gui_glut/gui.h \
+		../gui_glut/extra.h \
+		../bib/CameraDistante.h \
+		../bib/Camera.h \
+		../bib/Vetor3D.h \
+		../bib/CameraJogo.h \
+		../bib/Desenha.h \
+		../bib/model3ds.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Pantheon.o ../pessoal/Pantheon.cpp
 
 ####### Install
 

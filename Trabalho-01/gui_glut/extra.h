@@ -32,7 +32,7 @@ public:
     static int width;// = 400;
     static int height;// = 300;
 
-    static bool perspective;// = true;
+    static int perspective;// = true;
 
     static bool lbpressed;// = false;
     static bool mbpressed;// = false;
@@ -102,6 +102,11 @@ public:
     static float dsz;// = 0.0;
 
     //static float delta;// = 5.0;
+
+    //------------projeção
+    static int anglePerspective;
+    static int obliquaX;
+    static int obliquaY;
 
 public:
     static void resize(int w, int h);
