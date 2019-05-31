@@ -2,9 +2,10 @@
 
 using namespace std;
 
-#include <gui.h>
-#include <vector>
+#include<Curva.h>
 
+Curva *curva = new Curva();
+float delta_u = 0.1;
 //-------------------picking------------------
 vector<Vetor3D> pontosControle;
 
@@ -24,7 +25,7 @@ void desenhaPontosDeControle()
         //desenhando (definindo nomes para o picking)
         Vetor3D p = pontosControle[i];
         glPushName(i+1); //não se deve definir name = 0!
-            GUI::drawSphere(p.x,p.y,p.z,0.2);
+            GUI::drawSphere(p.x,p.y,p.z,0.075);
         glPopName();
     }
 }
@@ -113,6 +114,11 @@ void desenha() {
         pontosControle[pontoSelecionado-1].z += glutGUI::dtz;
     }
 
+    if(pontosControle.size() >= 4)
+    {
+        curva->desenhaCurva(pontosControle, delta_u);
+    }
+
     GUI::displayEnd();
 }
 
@@ -128,10 +134,49 @@ void teclado(unsigned char key, int x, int y) {
         glutGUI::trans_luz = !glutGUI::trans_luz;
         break;
 
+    case 'a':
+        pontosControle.push_back(Vetor3D(0, 1, 0));
+        break;
+
+    case 'd':
+        if(pontoSelecionado != 0)
+            pontosControle.erase(pontosControle.begin()+pontoSelecionado-1, pontosControle.begin()+pontoSelecionado);
+        break;
+
+    case 'I':
+        curva->mudaMatriz(I);
+        break;
+
+    case 'H':
+        curva->mudaMatriz(H);
+        break;
+
+    case 'B':
+        curva->mudaMatriz(B);
+        break;
+
+    case 'M':
+        curva->mudaMatriz(CM);
+        break;
+
+    case 'S':
+        curva->mudaMatriz(BS);
+        break;
+
+    case '-':
+        if(delta_u <= 1)
+            delta_u += 0.01;
+        break;
+
+    case '+':
+        if(delta_u > 0.0125)
+            delta_u -= 0.01;
+        break;
+
     case 'v':
         viewports = !viewports;
         break;
-    case 's':
+    case 'V':
         scissored = !scissored;
         break;
 
@@ -159,19 +204,9 @@ void mouse(int button, int state, int x, int y) {
 
 int main()
 {
-    cout << "Hello World!" << endl;
-
-    int n = 5;
-    float dist = 1.0;
-    for (int i=0; i<n; i++) {
-        pontosControle.push_back( Vetor3D((i-n/2)*dist,1,0) );
-    }
-
+    pontosControle.push_back(Vetor3D(-1, 1, 0));
+    pontosControle.push_back(Vetor3D(1, 1, 0));
+    pontosControle.push_back(Vetor3D(1, -1, 0));
+    pontosControle.push_back(Vetor3D(-1, -1, 0));
     GUI gui = GUI(800,600,desenha,teclado,mouse);
 }
-
-
-//while(true) {
-//    desenha();
-//    interacaoUsuario();
-//}
