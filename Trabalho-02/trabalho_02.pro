@@ -15,6 +15,7 @@ SOURCES += main.cpp \
     bib/CameraJogo.cpp \
     bib/Curva.cpp \
     bib/Desenha.cpp \
+    bib/DoisCaraNumaMoto.cpp \
     bib/Objeto.cpp \
     bib/Pista.cpp \
     bib/model3ds.cpp \
@@ -28,6 +29,7 @@ HEADERS += \
     bib/CameraJogo.h \
     bib/Curva.h \
     bib/Desenha.h \
+    bib/DoisCaraNumaMoto.h \
     bib/Objeto.h \
     bib/Pista.h \
     bib/model3ds.h \

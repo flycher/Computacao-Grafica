@@ -3,8 +3,10 @@
 using namespace std;
 
 #include<Curva.h>
+#include<DoisCaraNumaMoto.h>
 
 Curva *curva = new Curva();
+DoisCaraNumaMoto *doisuma = new DoisCaraNumaMoto();
 float delta_u = 0.1;
 //-------------------picking------------------
 vector<Vetor3D> pontosControle;
@@ -117,6 +119,8 @@ void desenha() {
     if(pontosControle.size() >= 4)
     {
         curva->desenhaCurva(pontosControle, delta_u);
+        doisuma->desenhaNaCurva(*curva, pontosControle, delta_u);
+        doisuma->mover();
     }
 
     GUI::displayEnd();

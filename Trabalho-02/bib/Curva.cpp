@@ -71,7 +71,7 @@ vector<vector<float> > Curva::Bspline()
 
 Vetor3D Curva::pT(float u, const vector<Vetor3D>& points, int degree){
 
-    Vetor3D resultado;
+    Vetor3D P;
     double U[4];
     if(degree == 0)
         double U[4] = {pow(u, 3), pow(u, 2), u, 1};
@@ -90,12 +90,12 @@ Vetor3D Curva::pT(float u, const vector<Vetor3D>& points, int degree){
     }
 
     for(int i = 0; i<4; i++){
-        resultado.x += M[i] * points[i].x;
-        resultado.y += M[i] * points[i].y;
-        resultado.z += M[i] * points[i].z;
+        P.x += M[i] * points[i].x;
+        P.y += M[i] * points[i].y;
+        P.z += M[i] * points[i].z;
     }
 
-    return resultado;
+    return P;
 }
 
 void Curva::mudaMatriz(matriz M)
@@ -148,11 +148,9 @@ void Curva::desenhaCurva(const vector<Vetor3D> &pontosControle, float delta_u)
 
             glPushMatrix();
                 glMultTransposeMatrixd(T);
-                glScalef(1, 1, delta_u * 2.5);
+                glScalef(1, 1, delta_u * pontosControle.size());
                 pista->desenha();
             glPopMatrix();
         }
     }
 }
-
-

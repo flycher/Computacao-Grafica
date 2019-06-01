@@ -56,6 +56,7 @@ SOURCES       = ../main.cpp \
 		../bib/CameraJogo.cpp \
 		../bib/Curva.cpp \
 		../bib/Desenha.cpp \
+		../bib/DoisCaraNumaMoto.cpp \
 		../bib/Objeto.cpp \
 		../bib/Pista.cpp \
 		../bib/model3ds.cpp \
@@ -68,6 +69,7 @@ OBJECTS       = main.o \
 		CameraJogo.o \
 		Curva.o \
 		Desenha.o \
+		DoisCaraNumaMoto.o \
 		Objeto.o \
 		Pista.o \
 		model3ds.o \
@@ -151,6 +153,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		bib/CameraJogo.h \
 		bib/Curva.h \
 		bib/Desenha.h \
+		bib/DoisCaraNumaMoto.h \
 		bib/Objeto.h \
 		bib/Pista.h \
 		bib/model3ds.h \
@@ -162,6 +165,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../bib/CameraJogo.cpp \
 		../bib/Curva.cpp \
 		../bib/Desenha.cpp \
+		../bib/DoisCaraNumaMoto.cpp \
 		../bib/Objeto.cpp \
 		../bib/Pista.cpp \
 		../bib/model3ds.cpp \
@@ -370,6 +374,7 @@ compiler_clean:
 ####### Compile
 
 main.o: ../main.cpp ../bib/Curva.h \
+		../bib/Objeto.h \
 		../gui_glut/gui.h \
 		../gui_glut/extra.h \
 		../bib/CameraDistante.h \
@@ -379,7 +384,7 @@ main.o: ../main.cpp ../bib/Curva.h \
 		../bib/Desenha.h \
 		../bib/model3ds.h \
 		../bib/Pista.h \
-		../bib/Objeto.h
+		../bib/DoisCaraNumaMoto.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../main.cpp
 
 Camera.o: ../bib/Camera.cpp ../bib/Camera.h \
@@ -397,6 +402,7 @@ CameraJogo.o: ../bib/CameraJogo.cpp ../bib/CameraJogo.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CameraJogo.o ../bib/CameraJogo.cpp
 
 Curva.o: ../bib/Curva.cpp ../bib/Curva.h \
+		../bib/Objeto.h \
 		../gui_glut/gui.h \
 		../gui_glut/extra.h \
 		../bib/CameraDistante.h \
@@ -404,12 +410,27 @@ Curva.o: ../bib/Curva.cpp ../bib/Curva.h \
 		../bib/Vetor3D.h \
 		../bib/CameraJogo.h \
 		../bib/Desenha.h \
-		../bib/model3ds.h
+		../bib/model3ds.h \
+		../bib/Pista.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Curva.o ../bib/Curva.cpp
 
 Desenha.o: ../bib/Desenha.cpp ../bib/Desenha.h \
 		../bib/Vetor3D.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Desenha.o ../bib/Desenha.cpp
+
+DoisCaraNumaMoto.o: ../bib/DoisCaraNumaMoto.cpp ../bib/DoisCaraNumaMoto.h \
+		../bib/Curva.h \
+		../bib/Objeto.h \
+		../gui_glut/gui.h \
+		../gui_glut/extra.h \
+		../bib/CameraDistante.h \
+		../bib/Camera.h \
+		../bib/Vetor3D.h \
+		../bib/CameraJogo.h \
+		../bib/Desenha.h \
+		../bib/model3ds.h \
+		../bib/Pista.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DoisCaraNumaMoto.o ../bib/DoisCaraNumaMoto.cpp
 
 Objeto.o: ../bib/Objeto.cpp ../bib/Objeto.h \
 		../gui_glut/gui.h \

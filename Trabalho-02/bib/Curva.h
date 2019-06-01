@@ -1,8 +1,7 @@
 #ifndef CURVA_H
 #define CURVA_H
 
-#include<gui.h>
-#include<vector>
+#include<Objeto.h>
 #include<Pista.h>
 
 enum matriz {I, H, B, CM, BS};

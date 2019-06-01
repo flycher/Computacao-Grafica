@@ -2,6 +2,7 @@
 #define OBJETO_H
 
 #include "gui.h"
+#include <vector>
 
 class Objeto
 {
