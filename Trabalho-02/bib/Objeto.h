@@ -13,6 +13,7 @@ public:
 
     Objeto();
     virtual void desenha();
+    void cubo();
 };
 
 #endif // OBJETO_H

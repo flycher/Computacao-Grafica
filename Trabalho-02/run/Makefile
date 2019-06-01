@@ -57,6 +57,7 @@ SOURCES       = ../main.cpp \
 		../bib/Curva.cpp \
 		../bib/Desenha.cpp \
 		../bib/DoisCaraNumaMoto.cpp \
+		../bib/Helicoptero.cpp \
 		../bib/Objeto.cpp \
 		../bib/Pista.cpp \
 		../bib/model3ds.cpp \
@@ -70,6 +71,7 @@ OBJECTS       = main.o \
 		Curva.o \
 		Desenha.o \
 		DoisCaraNumaMoto.o \
+		Helicoptero.o \
 		Objeto.o \
 		Pista.o \
 		model3ds.o \
@@ -154,6 +156,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		bib/Curva.h \
 		bib/Desenha.h \
 		bib/DoisCaraNumaMoto.h \
+		bib/Helicoptero.h \
 		bib/Objeto.h \
 		bib/Pista.h \
 		bib/model3ds.h \
@@ -166,6 +169,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../bib/Curva.cpp \
 		../bib/Desenha.cpp \
 		../bib/DoisCaraNumaMoto.cpp \
+		../bib/Helicoptero.cpp \
 		../bib/Objeto.cpp \
 		../bib/Pista.cpp \
 		../bib/model3ds.cpp \
@@ -384,7 +388,8 @@ main.o: ../main.cpp ../bib/Curva.h \
 		../bib/Desenha.h \
 		../bib/model3ds.h \
 		../bib/Pista.h \
-		../bib/DoisCaraNumaMoto.h
+		../bib/DoisCaraNumaMoto.h \
+		../bib/Helicoptero.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../main.cpp
 
 Camera.o: ../bib/Camera.cpp ../bib/Camera.h \
@@ -429,8 +434,21 @@ DoisCaraNumaMoto.o: ../bib/DoisCaraNumaMoto.cpp ../bib/DoisCaraNumaMoto.h \
 		../bib/CameraJogo.h \
 		../bib/Desenha.h \
 		../bib/model3ds.h \
-		../bib/Pista.h
+		../bib/Pista.h \
+		../bib/Helicoptero.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o DoisCaraNumaMoto.o ../bib/DoisCaraNumaMoto.cpp
+
+Helicoptero.o: ../bib/Helicoptero.cpp ../bib/Helicoptero.h \
+		../bib/Objeto.h \
+		../gui_glut/gui.h \
+		../gui_glut/extra.h \
+		../bib/CameraDistante.h \
+		../bib/Camera.h \
+		../bib/Vetor3D.h \
+		../bib/CameraJogo.h \
+		../bib/Desenha.h \
+		../bib/model3ds.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Helicoptero.o ../bib/Helicoptero.cpp
 
 Objeto.o: ../bib/Objeto.cpp ../bib/Objeto.h \
 		../gui_glut/gui.h \

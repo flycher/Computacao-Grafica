@@ -14,3 +14,54 @@ void Objeto::desenha()
     glRotatef(a.x,1,0,0);
     glScalef(s.x,s.y,s.z);
 }
+
+void Objeto::cubo()
+{
+    glBegin(GL_QUADS);
+        glNormal3f(0, 0, 1);
+        glVertex3f(1, 1, 0);
+        glVertex3f(0, 1, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(1, 0, 0);
+    glEnd();
+
+    glBegin(GL_QUADS);
+        glNormal3f(0, 0, -1);
+        glVertex3f(0, 0, -1);
+        glVertex3f(0, 1, -1);
+        glVertex3f(1, 1, -1);
+        glVertex3f(1, 0, -1);
+    glEnd();
+
+    glBegin(GL_QUADS);
+        glNormal3f(-1, 0, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0, 1, 0);
+        glVertex3f(0, 1, -1);
+        glVertex3f(0, 0, -1);
+    glEnd();
+
+    glBegin(GL_QUADS);
+        glNormal3f(1, 0, 0);
+        glVertex3f(1, 0, -1);
+        glVertex3f(1, 1, -1);
+        glVertex3f(1, 1, 0);
+        glVertex3f(1, 0, 0);
+    glEnd();
+
+    glBegin(GL_QUADS);
+        glNormal3f(0, 1, 0);
+        glVertex3f(0, 1, 0);
+        glVertex3f(1, 1, 0);
+        glVertex3f(1, 1, -1);
+        glVertex3f(0, 1, -1);
+    glEnd();
+
+    glBegin(GL_QUADS);
+        glNormal3f(0, -1, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0, 0, -1);
+        glVertex3f(1, 0, -1);
+        glVertex3f(1, 0, 0);
+    glEnd();
+}

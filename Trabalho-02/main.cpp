@@ -8,6 +8,8 @@ using namespace std;
 Curva *curva = new Curva();
 DoisCaraNumaMoto *doisuma = new DoisCaraNumaMoto();
 float delta_u = 0.1;
+bool mover = false;
+CameraJogo *camera = new CameraJogo();
 //-------------------picking------------------
 vector<Vetor3D> pontosControle;
 
@@ -77,9 +79,9 @@ void viewPorts() {
         GUI::glScissoredViewport(0, 3*height/4, width/4, height/4);
     }
         glLoadIdentity();
-        Vetor3D eye = pontosControle[4];
-        Vetor3D center = pontosControle[2];
-        gluLookAt(eye.x,eye.y,eye.z, center.x,center.y,center.z, 0.0,1.0,0.0);
+        gluLookAt(camera->e.x, camera->e.y, camera->e.z,
+                  camera->u.x, camera->u.y, camera->u.z,
+                  camera->c.x, camera->c.y, camera->c.z);
             cenario();
 }
 //-------------------viewPorts------------------
@@ -119,10 +121,12 @@ void desenha() {
     if(pontosControle.size() >= 4)
     {
         curva->desenhaCurva(pontosControle, delta_u);
-        doisuma->desenhaNaCurva(*curva, pontosControle, delta_u);
-        doisuma->mover();
+        doisuma->desenhaNaCurva(*curva, pontosControle, *camera);
+        if(mover)
+            doisuma->mover();
     }
 
+    glEnable(GL_CULL_FACE);
     GUI::displayEnd();
 }
 
@@ -175,6 +179,28 @@ void teclado(unsigned char key, int x, int y) {
     case '+':
         if(delta_u > 0.0125)
             delta_u -= 0.01;
+        break;
+
+    case 'P':
+        mover = !mover;
+        break;
+
+    case 'q':
+        mover = false;
+        doisuma->mudaDirecao(-1);
+        break;
+
+    case 'e':
+        mover = false;
+        doisuma->mudaDirecao(1);
+        break;
+
+    case 'Q':
+        glutGUI::cam = camera;
+        break;
+
+    case 'E':
+        glutGUI::cam = new CameraDistante();
         break;
 
     case 'v':

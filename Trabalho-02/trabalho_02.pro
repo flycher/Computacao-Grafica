@@ -16,6 +16,7 @@ SOURCES += main.cpp \
     bib/Curva.cpp \
     bib/Desenha.cpp \
     bib/DoisCaraNumaMoto.cpp \
+    bib/Helicoptero.cpp \
     bib/Objeto.cpp \
     bib/Pista.cpp \
     bib/model3ds.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     bib/Curva.h \
     bib/Desenha.h \
     bib/DoisCaraNumaMoto.h \
+    bib/Helicoptero.h \
     bib/Objeto.h \
     bib/Pista.h \
     bib/model3ds.h \
