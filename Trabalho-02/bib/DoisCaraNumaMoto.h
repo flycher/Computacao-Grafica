@@ -15,7 +15,7 @@ public:
 
     DoisCaraNumaMoto();
     void desenha();
-    void desenhaNaCurva(Curva &c, const vector<Vetor3D> &pontosControle, CameraJogo &camera);
+    void desenhaNaCurva(Curva &c, const vector<Vetor3D> &pontosControle, Camera &camera);
     void mover();
     void mudaDirecao(int d);
 };

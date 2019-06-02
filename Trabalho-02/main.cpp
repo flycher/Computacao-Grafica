@@ -9,7 +9,12 @@ Curva *curva = new Curva();
 DoisCaraNumaMoto *doisuma = new DoisCaraNumaMoto();
 float delta_u = 0.1;
 bool mover = false;
-CameraJogo *camera = new CameraJogo();
+Camera *cameraH = new CameraJogo();
+Camera *cameraD = new CameraDistante(Vetor3D(-5, 7, 15), Vetor3D(), Vetor3D(0, 1, 0));
+Camera *principal;
+Camera *secundaria;
+bool visao = true;
+bool vision = true;
 //-------------------picking------------------
 vector<Vetor3D> pontosControle;
 
@@ -64,10 +69,23 @@ void viewPorts() {
     float width = glutGUI::width;
     float height = glutGUI::height;
 
+    if(visao)
+    {
+        principal = cameraD;
+        secundaria = cameraH;
+    }
+    else
+    {
+        principal = cameraH;
+        secundaria = cameraD;
+    }
+
     //viewport principal
     glViewport(0, 0, width, height);
         glLoadIdentity();
-        gluLookAt(glutGUI::cam->e.x,glutGUI::cam->e.y,glutGUI::cam->e.z, glutGUI::cam->c.x,glutGUI::cam->c.y,glutGUI::cam->c.z, glutGUI::cam->u.x,glutGUI::cam->u.y,glutGUI::cam->u.z);
+        gluLookAt(principal->e.x,principal->e.y,principal->e.z,
+                  principal->c.x,principal->c.y,principal->c.z,
+                  principal->u.x,principal->u.y,principal->u.z);
             cenario();
 
     //viewport auxiliar sobrepondo a principal
@@ -79,10 +97,30 @@ void viewPorts() {
         GUI::glScissoredViewport(0, 3*height/4, width/4, height/4);
     }
         glLoadIdentity();
-        gluLookAt(camera->e.x, camera->e.y, camera->e.z,
-                  camera->u.x, camera->u.y, camera->u.z,
-                  camera->c.x, camera->c.y, camera->c.z);
+        gluLookAt(secundaria->e.x, secundaria->e.y, secundaria->e.z,
+                  secundaria->u.x, secundaria->u.y, secundaria->u.z,
+                  secundaria->c.x, secundaria->c.y, secundaria->c.z);
             cenario();
+
+    glLoadIdentity();
+    glMatrixMode (GL_PROJECTION);
+        glPushMatrix ();
+            glLoadIdentity ();
+            glLineWidth(100);
+            GUI::setColor(0, 0, 0);
+            glBegin (GL_LINES);
+                glVertex3i (-1, -1, -1);
+                glVertex3i (1, -1, -1);
+                glVertex3i (1, 1, -1);
+                glVertex3i (-1, 1, -1);
+                glVertex3i (-1, -1, -1);
+                glVertex3i (-1, 1, -1);
+                glVertex3i (1, -1, -1);
+                glVertex3i (1, 1, -1);
+            glEnd ();
+        glPopMatrix ();
+    glMatrixMode(GL_MODELVIEW);
+
 }
 //-------------------viewPorts------------------
 
@@ -96,19 +134,9 @@ void cenario() {
     //GUI::setColor(1,0,0);
     //GUI::drawFloor();
     GUI::setColor(0,0,0);
-    Desenha::drawGrid( 5, 0, 1, 1 );
+    Desenha::drawGrid(10, 0, 10, 2 );
 
     desenhaPontosDeControle();
-}
-
-void desenha() {
-    GUI::displayInit();
-
-    if (!viewports) {
-        cenario();
-    } else {
-        viewPorts();
-    }
 
     //transladando ponto selecionado atraves do picking
     //if (pontoSelecionado > 0 and pontoSelecionado <= objetos.size()) {
@@ -121,12 +149,23 @@ void desenha() {
     if(pontosControle.size() >= 4)
     {
         curva->desenhaCurva(pontosControle, delta_u);
-        doisuma->desenhaNaCurva(*curva, pontosControle, *camera);
+        doisuma->desenhaNaCurva(*curva, pontosControle, *cameraH);
         if(mover)
             doisuma->mover();
     }
+}
+
+void desenha() {
+    GUI::displayInit();
+
+    if (!viewports) {
+        cenario();
+    } else {
+        viewPorts();
+    }
 
     glEnable(GL_CULL_FACE);
+
     GUI::displayEnd();
 }
 
@@ -143,7 +182,7 @@ void teclado(unsigned char key, int x, int y) {
         break;
 
     case 'a':
-        pontosControle.push_back(Vetor3D(0, 1, 0));
+        pontosControle.push_back(Vetor3D(0, 0, 0));
         break;
 
     case 'd':
@@ -196,11 +235,19 @@ void teclado(unsigned char key, int x, int y) {
         break;
 
     case 'Q':
-        glutGUI::cam = camera;
+        visao = !visao;
         break;
 
     case 'E':
-        glutGUI::cam = new CameraDistante();
+        if(vision)
+        {
+            glutGUI::cam = cameraD;
+        }
+        else
+        {
+            glutGUI::cam = cameraH;
+        }
+        vision = !vision;
         break;
 
     case 'v':
@@ -234,9 +281,10 @@ void mouse(int button, int state, int x, int y) {
 
 int main()
 {
-    pontosControle.push_back(Vetor3D(-1, 1, 0));
-    pontosControle.push_back(Vetor3D(1, 1, 0));
-    pontosControle.push_back(Vetor3D(1, -1, 0));
-    pontosControle.push_back(Vetor3D(-1, -1, 0));
+    pontosControle.push_back(Vetor3D(-5, 2, -8));
+    pontosControle.push_back(Vetor3D(7, 4, 3));
+    pontosControle.push_back(Vetor3D(-8, -1, 2));
+    pontosControle.push_back(Vetor3D(4, -2, 3));
+    glutGUI::cam = cameraD;
     GUI gui = GUI(800,600,desenha,teclado,mouse);
 }

@@ -14,13 +14,13 @@ void DoisCaraNumaMoto::desenha()
     glPushMatrix();
         Objeto::desenha();
         glRotatef(100, 1, 0, 0);
-        GUI::drawOrigin(0.5);
+//        GUI::drawOrigin(0.5);
         glScalef(0.003, 0.003, 0.003);
         modelo->draw();
     glPopMatrix();
 }
 
-void DoisCaraNumaMoto::desenhaNaCurva(Curva &curva, const vector<Vetor3D> &pontosControle, CameraJogo &camera)
+void DoisCaraNumaMoto::desenhaNaCurva(Curva &curva, const vector<Vetor3D> &pontosControle, Camera &camera)
 {
     int n = pontosControle.size();
     if(p <= -n || p >= n)
@@ -28,7 +28,7 @@ void DoisCaraNumaMoto::desenhaNaCurva(Curva &curva, const vector<Vetor3D> &ponto
     vector<Vetor3D> pontos(4);
     for(int j = 0; j < 4; j++)
     {
-        pontos[j] = pontosControle[(p + j) % n];
+        pontos[j] = pontosControle[(p + j) % pontosControle.size()];
     }
     Vetor3D o = curva.pT(u, pontos, 0);
     Vetor3D k = curva.pT(u, pontos, 1) * (-1);
@@ -51,13 +51,23 @@ void DoisCaraNumaMoto::desenhaNaCurva(Curva &curva, const vector<Vetor3D> &ponto
         this->desenha();
     glPopMatrix();
 
-    camera.c = o;
+    camera.c = o + (camera.u * 0.3);
     camera.u = j * (-1);
-    camera.e = (k + camera.u) * 2;
+    camera.e = camera.c + (k * 2);
+
+//    glLineWidth(100);
+//    glBegin(GL_LINES);
+//        GUI::setColor(1, 0, 0);
+//        glVertex3f(camera.e.x, camera.e.y, camera.e.z);
+//        glVertex3f(camera.c.x, camera.c.y, camera.c.z);
+//    glEnd();
+
     glPushMatrix();
         glTranslatef(camera.e.x, camera.e.y, camera.e.z);
+        glTranslatef(-o.x, -o.y, -o.z);
         glMultTransposeMatrixd(T);
-        GUI::drawCamera(0.1);
+        GUI::setColor(0.498, 0.498, 0.498);
+        GUI::drawCamera(0.01);
         helicoptero->desenha();
     glPopMatrix();
 }
