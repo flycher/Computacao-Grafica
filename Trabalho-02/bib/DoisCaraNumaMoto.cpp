@@ -32,13 +32,13 @@ void DoisCaraNumaMoto::desenhaNaCurva(Curva &curva, const vector<Vetor3D> &ponto
     }
     Vetor3D o = curva.pT(u, pontos, 0);
     Vetor3D k = curva.pT(u, pontos, 1) * (-1);
-    Vetor3D j = curva.pT(u, pontos, 2);
-    Vetor3D i = j ^ k;
-    j = k ^ i;
-    i.normaliza();
-    j.normaliza();
     k.normaliza();
+    Vetor3D j = curva.pT(u, pontos, 2);
+    j.normaliza();
+    Vetor3D i = j ^ k;
+    i.normaliza();
 
+    j = k ^ i;
     double T[] = {
         i.x, j.x, k.x, o.x,
         i.y, j.y, k.y, o.y,
@@ -50,6 +50,8 @@ void DoisCaraNumaMoto::desenhaNaCurva(Curva &curva, const vector<Vetor3D> &ponto
         glMultTransposeMatrixd(T);
         this->desenha();
     glPopMatrix();
+
+    glEnable(GL_CULL_FACE);
 
     camera.c = o + (j * -0.3);
     camera.u = j * (-1);

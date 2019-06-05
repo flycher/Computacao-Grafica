@@ -132,12 +132,13 @@ void Curva::desenhaCurva(const vector<Vetor3D> &pontosControle, float delta_u)
         {
             Vetor3D o = pT(u, pontos, 0);
             Vetor3D k = pT(u, pontos, 1) * (-1);
-            Vetor3D j = pT(u, pontos, 2);
-            Vetor3D i = j ^ k;
-            j = k ^ i;
-            i.normaliza();
-            j.normaliza();
             k.normaliza();
+            Vetor3D j = pT(u, pontos, 2);
+            j.normaliza();
+            Vetor3D i = j ^ k;
+            i.normaliza();
+
+            j = k ^ i;
 
             double T[] = {
                 i.x, j.x, k.x, o.x,

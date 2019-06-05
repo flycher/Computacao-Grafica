@@ -60,7 +60,7 @@ int picking( GLint cursorX, GLint cursorY, int w, int h ) {
 
 //-------------------viewPorts------------------
 bool viewports = false;
-bool scissored = false;
+bool scissored = true;
 
 void cenario();
 
@@ -164,8 +164,6 @@ void desenha() {
         viewPorts();
     }
 
-    glEnable(GL_CULL_FACE);
-
     GUI::displayEnd();
 }
 
@@ -239,6 +237,7 @@ void teclado(unsigned char key, int x, int y) {
         break;
 
     case 'E':
+        vision = !vision;
         if(vision)
         {
             glutGUI::cam = cameraD;
@@ -247,7 +246,6 @@ void teclado(unsigned char key, int x, int y) {
         {
             glutGUI::cam = cameraH;
         }
-        vision = !vision;
         break;
 
     case 'v':
