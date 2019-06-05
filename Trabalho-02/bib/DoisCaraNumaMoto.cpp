@@ -51,7 +51,7 @@ void DoisCaraNumaMoto::desenhaNaCurva(Curva &curva, const vector<Vetor3D> &ponto
         this->desenha();
     glPopMatrix();
 
-    camera.c = o + (camera.u * 0.3);
+    camera.c = o + (j * -0.3);
     camera.u = j * (-1);
     camera.e = camera.c + (k * 2);
 
@@ -67,7 +67,7 @@ void DoisCaraNumaMoto::desenhaNaCurva(Curva &curva, const vector<Vetor3D> &ponto
         glTranslatef(-o.x, -o.y, -o.z);
         glMultTransposeMatrixd(T);
         GUI::setColor(0.498, 0.498, 0.498);
-        GUI::drawCamera(0.01);
+//        GUI::drawCamera(0.01);
         helicoptero->desenha();
     glPopMatrix();
 }

@@ -71,7 +71,7 @@ vector<vector<float> > Curva::Bspline()
 
 Vetor3D Curva::pT(float u, const vector<Vetor3D>& points, int degree){
 
-    Vetor3D P;
+    Vetor3D P(0, 0, 0);
     double U[4];
     if(degree == 0)
         double U[4] = {pow(u, 3), pow(u, 2), u, 1};

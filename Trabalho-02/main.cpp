@@ -98,8 +98,8 @@ void viewPorts() {
     }
         glLoadIdentity();
         gluLookAt(secundaria->e.x, secundaria->e.y, secundaria->e.z,
-                  secundaria->u.x, secundaria->u.y, secundaria->u.z,
-                  secundaria->c.x, secundaria->c.y, secundaria->c.z);
+                  secundaria->c.x, secundaria->c.y, secundaria->c.z,
+                  secundaria->u.x, secundaria->u.y, secundaria->u.z);
             cenario();
 
     glLoadIdentity();
