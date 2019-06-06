@@ -15,6 +15,8 @@ Camera *principal;
 Camera *secundaria;
 bool visao = true;
 bool vision = true;
+bool desenhaCurva = true;
+bool desenhaCarro = true;
 //-------------------picking------------------
 vector<Vetor3D> pontosControle;
 
@@ -146,12 +148,15 @@ void cenario() {
         pontosControle[pontoSelecionado-1].z += glutGUI::dtz;
     }
 
-    if(pontosControle.size() >= 4)
+    if(pontosControle.size() >= 4 && desenhaCurva)
     {
         curva->desenhaCurva(pontosControle, delta_u);
-        doisuma->desenhaNaCurva(*curva, pontosControle, *cameraH);
-        if(mover)
-            doisuma->mover();
+        if(desenhaCarro)
+        {
+            doisuma->desenhaNaCurva(*curva, pontosControle, *cameraH);
+            if(mover)
+                doisuma->mover();
+        }
     }
 }
 
@@ -255,6 +260,14 @@ void teclado(unsigned char key, int x, int y) {
         scissored = !scissored;
         break;
 
+    case '[':
+        desenhaCurva = !desenhaCurva;
+        break;
+
+    case ']':
+        desenhaCarro = !desenhaCarro;
+        break;
+
     default:
         break;
     }
@@ -277,6 +290,26 @@ void mouse(int button, int state, int x, int y) {
     }
 }
 
+void teclas()
+{
+    cout << "Use as seguintes teclas para mudar a curva:" << endl;
+    cout << "\t'I': Interpoladora" << endl;
+    cout << "\t'B': Bezier" << endl;
+    cout << "\t'H': Hermite" << endl;
+    cout << "\t'M': Catmull-Rom" << endl;
+    cout << "\t'B': BSpline" << endl;
+    cout << "'-'|'+' para diminuir/aumentar a discretização" << endl;
+    cout << "'e' para mover o modelo para frente" << endl;
+    cout << "'q' para mover o modelo para trás" << endl;
+    cout << "'P' para mover o modelo automaticamente" << endl;
+    cout << "'E' para mudar a visão" << endl;
+    cout << "'v' para exibir viewport alternativo" << endl;
+    cout << "'Q' para mudar a visão quando exibindo o viewport" << endl;
+    cout << "'V' para alternar o recorte" << endl;
+    cout << "'[' para alternar entre desenhar a curva" << endl;
+    cout << "']' para alternar entre desenhar o modelo" << endl;
+}
+
 int main()
 {
     pontosControle.push_back(Vetor3D(-5, 2, -8));
@@ -284,5 +317,6 @@ int main()
     pontosControle.push_back(Vetor3D(-8, -1, 2));
     pontosControle.push_back(Vetor3D(4, -2, 3));
     glutGUI::cam = cameraD;
+    teclas();
     GUI gui = GUI(800,600,desenha,teclado,mouse);
 }

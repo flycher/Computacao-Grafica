@@ -11,10 +11,10 @@ Curva::Curva()
 vector<vector<float> > Curva::Interpoladora()
 {
     vector<vector<float>> Matriz = {
-        {1, 0, 0, 0},
-        {-5.5, 9, -4.5, 1},
+        {-4.5, 13.5, -13.5, 4.5},
         {9, -22.5, 18, -4.5},
-        {-4.5, 13.5, -13.5, 4.5}
+        {-5.5, 9, -4.5, 1},
+        {1, 0, 0, 0}
     };
 
     return Matriz;
@@ -82,9 +82,9 @@ Vetor3D Curva::pT(float u, const vector<Vetor3D>& points, int degree){
 
     float M[4];
 
-    for(int i = 0; i<4; i++){
+    for(int i = 0; i < 4; i++){
         M[i] = 0;
-        for(int j = 0; j<4; j++){
+        for(int j = 0; j < 4; j++){
             M[i] += U[j] * Matriz[j][i];
         }
     }
