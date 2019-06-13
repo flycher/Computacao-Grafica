@@ -6,6 +6,7 @@ Curva::Curva()
         Matriz.push_back(vector<float>(4));
     Matriz = Bspline();
     pista = new Pista();
+    cubic = 1;
 }
 
 vector<vector<float> > Curva::Interpoladora()
@@ -16,6 +17,8 @@ vector<vector<float> > Curva::Interpoladora()
         {-5.5, 9, -4.5, 1},
         {1, 0, 0, 0}
     };
+
+    cubic = 4;
 
     return Matriz;
 }
@@ -29,6 +32,8 @@ vector<vector<float> > Curva::Hermite()
         {1, 0, 0, 0}
     };
 
+    cubic = 1;
+
     return Matriz;
 }
 
@@ -40,6 +45,8 @@ vector<vector<float> > Curva::Bezier()
         {-3, 3, 0, 0},
         {1, 0, 0, 0}
     };
+
+    cubic = 4;
 
     return Matriz;
 }
@@ -54,6 +61,8 @@ vector<vector<float> > Curva::CatmullRom()
         {0.0, 2/2.0, 0.0, 0.0}
     };
 
+    cubic = 1;
+
     return Matriz;
 }
 
@@ -65,6 +74,8 @@ vector<vector<float> > Curva::Bspline()
         {-3/6.0, 0/6.0, 3/6.0, 0/6.0},
         {1/6.0, 4/6.0, 1/6.0, 0/6.0}
     };
+
+    cubic = 1;
 
     return Matriz;
 }
@@ -122,12 +133,13 @@ void Curva::mudaMatriz(matriz M)
 void Curva::desenhaCurva(const vector<Vetor3D> &pontosControle, float delta_u)
 {
     vector<Vetor3D> pontos(4);
-    for(int i = 0; i < pontosControle.size(); i++)
+    for(int i = 0; i <= pontosControle.size() - cubic; i+=cubic)
     {
         for(int j = 0; j < 4; j++)
         {
             pontos[j] = pontosControle[(i + j) % pontosControle.size()];
         }
+        float dist = pontos[0].getDistance(pontos[3]);
         for(float u = 0; u <= 1; u += delta_u)
         {
             Vetor3D o = pT(u, pontos, 0);
@@ -149,7 +161,7 @@ void Curva::desenhaCurva(const vector<Vetor3D> &pontosControle, float delta_u)
 
             glPushMatrix();
                 glMultTransposeMatrixd(T);
-                glScalef(1, 1, delta_u * pontosControle.size());
+                glScalef(1, 1, delta_u * dist);
                 pista->desenha();
             glPopMatrix();
         }

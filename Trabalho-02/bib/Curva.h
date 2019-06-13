@@ -11,6 +11,7 @@ class Curva
 public:
     vector<vector<float>> Matriz;
     Pista *pista;
+    int cubic;
 
     Curva();
     vector<vector<float>> Interpoladora();
@@ -21,7 +22,6 @@ public:
     void mudaMatriz(matriz M);
     Vetor3D pT(float u, const vector<Vetor3D>& points, int degree);
     void desenhaCurva(const vector<Vetor3D> &pontosControle, float delta_u);
-    void M();
 };
 
 #endif // CURVA_H

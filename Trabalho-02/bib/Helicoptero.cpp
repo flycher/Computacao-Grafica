@@ -174,3 +174,66 @@ void Helicoptero::desenha()
     h += 1;
     h %= 360;
 }
+
+void Helicoptero::audioCallback(void* userData, Uint8* stream, int streamLength)
+{
+    AudioData* audio = (AudioData*)userData;
+
+    if (audio->length == 0)
+    {
+    return;
+    }
+    Uint32 length = (Uint32)streamLength;
+
+    length = (length > audio->length ? audio->length : length);
+
+    SDL_memcpy(stream, audio->position, length);
+
+    audio->position += length;
+    audio->length -= length;
+}
+
+void Helicoptero::playAudio()
+{
+    SDL_Init(SDL_INIT_AUDIO);
+
+    SDL_AudioSpec wavSpec;
+    Uint8* wavStart;
+    Uint32 wavLength;
+    char* filePath = "../sound/datena.wav";
+
+    if(SDL_LoadWAV(filePath, &wavSpec, &wavStart, &wavLength) == NULL)
+    {
+        std::cerr << "Error: file could not be loaded as an audio file." << std::endl;
+        return;
+    }
+
+    AudioData audio;
+    audio.position = wavStart;
+    audio.length = wavLength;
+
+    wavSpec.callback = audioCallback;
+    wavSpec.userdata = &audio;
+
+    SDL_AudioDeviceID audioDevice;
+    audioDevice = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, SDL_AUDIO_ALLOW_ANY_CHANGE);
+
+    if (audioDevice == 0)
+    {
+        std::cerr << "Error: " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    SDL_PauseAudioDevice(audioDevice, 0);
+
+//    while (audio.length > 0)
+//    {
+//        SDL_Delay(100);
+//    }
+
+    SDL_CloseAudioDevice(audioDevice);
+    SDL_FreeWAV(wavStart);
+    SDL_Quit();
+
+    return;
+}

@@ -7,7 +7,7 @@ using namespace std;
 
 Curva *curva = new Curva();
 DoisCaraNumaMoto *doisuma = new DoisCaraNumaMoto();
-float delta_u = 0.1;
+float delta_u = 0.05;
 bool mover = false;
 Camera *cameraH = new CameraJogo();
 Camera *cameraD = new CameraDistante(Vetor3D(-5, 7, 15), Vetor3D(), Vetor3D(0, 1, 0));
@@ -195,22 +195,27 @@ void teclado(unsigned char key, int x, int y) {
 
     case 'I':
         curva->mudaMatriz(I);
+        desenhaCarro = false;
         break;
 
     case 'H':
         curva->mudaMatriz(H);
+        desenhaCarro = true;
         break;
 
     case 'B':
         curva->mudaMatriz(B);
+        desenhaCarro = false;
         break;
 
     case 'M':
         curva->mudaMatriz(CM);
+        desenhaCarro = true;
         break;
 
     case 'S':
         curva->mudaMatriz(BS);
+        desenhaCarro = true;
         break;
 
     case '-':
@@ -250,6 +255,7 @@ void teclado(unsigned char key, int x, int y) {
         else
         {
             glutGUI::cam = cameraH;
+            doisuma->helicoptero->playAudio();
         }
         break;
 

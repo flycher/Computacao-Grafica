@@ -10,6 +10,16 @@ public:
 
     Helicoptero();
     void desenha();
+
+    struct AudioData
+    {
+        Uint8* position;
+        Uint32 length;
+    };
+
+    static void audioCallback(void* userData, Uint8* stream, int streamLength);
+
+    void playAudio();
 };
 
 #endif // HELICOPTERO_H

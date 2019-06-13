@@ -7,7 +7,7 @@ INCLUDEPATH += bib
 INCLUDEPATH += gui_glut
 INCLUDEPATH += pessoal
 
-LIBS += -lGL -lGLU -lglut -l3ds -lSDL_image
+LIBS += -lGL -lGLU -lglut -l3ds -lSDL_image -lSDL2
 
 SOURCES += main.cpp \
     bib/Camera.cpp \

@@ -13,7 +13,9 @@
 #include <string.h>
 #include <iostream>
 #include <math.h>
-#include <SDL/SDL_image.h>
+//#include <SDL/SDL_image.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL.h>
 
 #define	TEX_XSIZE	1024
 #define	TEX_YSIZE	1024
