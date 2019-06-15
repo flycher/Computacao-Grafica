@@ -226,10 +226,10 @@ void Helicoptero::playAudio()
 
     SDL_PauseAudioDevice(audioDevice, 0);
 
-//    while (audio.length > 0)
-//    {
-//        SDL_Delay(100);
-//    }
+    while (audio.length > 0)
+    {
+        SDL_Delay(100);
+    }
 
     SDL_CloseAudioDevice(audioDevice);
     SDL_FreeWAV(wavStart);

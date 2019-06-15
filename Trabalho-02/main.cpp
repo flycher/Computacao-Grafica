@@ -111,14 +111,14 @@ void viewPorts() {
             glLineWidth(100);
             GUI::setColor(0, 0, 0);
             glBegin (GL_LINES);
-                glVertex3i (-1, -1, -1);
-                glVertex3i (1, -1, -1);
-                glVertex3i (1, 1, -1);
-                glVertex3i (-1, 1, -1);
-                glVertex3i (-1, -1, -1);
-                glVertex3i (-1, 1, -1);
-                glVertex3i (1, -1, -1);
-                glVertex3i (1, 1, -1);
+                glVertex3i (-1, -1, 0);
+                glVertex3i (1, -1, 0);
+                glVertex3i (1, 1, 0);
+                glVertex3i (-1, 1, 0);
+                glVertex3i (-1, -1, 0);
+                glVertex3i (-1, 1, 0);
+                glVertex3i (1, -1, 0);
+                glVertex3i (1, 1, 0);
             glEnd ();
         glPopMatrix ();
     glMatrixMode(GL_MODELVIEW);
@@ -200,7 +200,7 @@ void teclado(unsigned char key, int x, int y) {
 
     case 'H':
         curva->mudaMatriz(H);
-        desenhaCarro = true;
+        desenhaCarro = false;
         break;
 
     case 'B':
@@ -255,7 +255,7 @@ void teclado(unsigned char key, int x, int y) {
         else
         {
             glutGUI::cam = cameraH;
-            doisuma->helicoptero->playAudio();
+//            doisuma->helicoptero->playAudio();
         }
         break;
 
@@ -318,10 +318,10 @@ void teclas()
 
 int main()
 {
-    pontosControle.push_back(Vetor3D(-5, 2, -8));
-    pontosControle.push_back(Vetor3D(7, 4, 3));
-    pontosControle.push_back(Vetor3D(-8, -1, 2));
-    pontosControle.push_back(Vetor3D(4, -2, 3));
+    pontosControle.push_back(Vetor3D(-1,-1,0));
+    pontosControle.push_back(Vetor3D(1,-1,0));
+    pontosControle.push_back(Vetor3D(1,1,0));
+    pontosControle.push_back(Vetor3D(-1,1,0));
     glutGUI::cam = cameraD;
     teclas();
     GUI gui = GUI(800,600,desenha,teclado,mouse);
